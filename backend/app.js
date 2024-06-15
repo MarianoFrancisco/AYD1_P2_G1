@@ -18,14 +18,17 @@ const api = '/api';
 const auth = api + '/auth';
 const user = api + '/user';
 const medic = api + '/medic';
+const appointment = api + '/appointment';
 
 const authRouter = require('./app/routes/auth.routes.js');
 const userRouter = require('./app/routes/user.routes.js');
 const medicRouter = require('./app/routes/medic.routes.js');
+const appointmentRouter = require('./app/routes/appointment.routes.js');
 
 app.use(auth, authRouter);
 app.use(user, userRouter);
 app.use(medic, medicRouter);
+app.use(appointment, appointmentRouter);
 
 
 module.exports = app;

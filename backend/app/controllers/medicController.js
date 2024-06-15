@@ -2,13 +2,13 @@
 * @authors
 * Mariano Camposeco {@literal (mariano1941@outlook.es)}
 */
-const {getMedicsWithoutPendingAppointments} = require('../helper/medicHelper');
+const {getMedicsWithoutPendingAppointmentsByUser} = require('../helper/medicHelper');
 
 const getMedicsByPatient = async (req, res) => {
     const { user_id } = req.params;
 
     try {
-        const medics = await getMedicsWithoutPendingAppointments(user_id);
+        const medics = await getMedicsWithoutPendingAppointmentsByUser(user_id);
 
         return res.status(200).json({ medics });
     } catch (error) {

@@ -4,8 +4,8 @@
 */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/connectionDB');
-const AvailableTimeSlot = require('./AvailableTimeSlot');
 const User = require('./User');
+const AvailableTimeSlot = require('./AvailableTimeSlot');
 const AppointmentStatus = require('./AppointmentStatus');
 
 const Appointment = sequelize.define('Appointment', {
@@ -59,9 +59,9 @@ const Appointment = sequelize.define('Appointment', {
     timestamps: false
 });
 
-Appointment.belongsTo(AvailableTimeSlot, { foreignKey: 'time_slot_id' });
-Appointment.belongsTo(AppointmentStatus, { foreignKey: 'status_id' });
-Appointment.belongsTo(User, { foreignKey: 'patient_id' });
-Appointment.belongsTo(User, { foreignKey: 'medic_id' });
+Appointment.belongsTo(User, { foreignKey: 'patient_id', as: 'patient' });
+Appointment.belongsTo(User, { foreignKey: 'medic_id', as: 'medic' });
+Appointment.belongsTo(AvailableTimeSlot, { foreignKey: 'time_slot_id', as: 'available_time_slot' });
+Appointment.belongsTo(AppointmentStatus, { foreignKey: 'status_id', as: 'appointment_status' });
 
 module.exports = Appointment;

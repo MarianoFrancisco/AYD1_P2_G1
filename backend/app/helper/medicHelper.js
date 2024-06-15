@@ -9,7 +9,7 @@ const Role = require('../models/Role');
 const Appointment = require('../models/Appointment');
 const { createUserResponse } = require('../helper/userHelper');
 
-const getMedicsWithoutPendingAppointments = async (user_id) => {
+const getMedicsWithoutPendingAppointmentsByUser = async (user_id) => {
     try {
         const users = await User.findAll({
             where: { role_id: 2 },
@@ -42,9 +42,9 @@ const getMedicsWithoutPendingAppointments = async (user_id) => {
 
         return userResponses;
     } catch (error) {
-        console.error('Error in getMedics:', error);
+        console.error('Error in gettings medics without pending appointments by user:', error);
         return [];
     }
 };
 
-module.exports = { getMedicsWithoutPendingAppointments };
+module.exports = { getMedicsWithoutPendingAppointmentsByUser };

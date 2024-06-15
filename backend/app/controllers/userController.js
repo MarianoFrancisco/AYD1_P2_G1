@@ -7,7 +7,7 @@ const User = require('../models/User');
 const Medic = require('../models/Medic');
 const Patient = require('../models/Patient');
 const { hashPassword } = require('../utils/encryption');
-const {getUser} = require('../helper/userHelper');
+const {getUserById} = require('../helper/userHelper');
 const path = require('path');
 const fs = require('fs');
 
@@ -138,7 +138,7 @@ const updateUser = async (req, res) => {
 
             await transaction.commit();
 
-            const updatedUserResponse = await getUser(updatedUser.id);
+            const updatedUserResponse = await getUserById(updatedUser.id);
 
             res.status(200).json({ message: 'User updated successfully', user: updatedUserResponse });
         } catch (error) {
