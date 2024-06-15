@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS patients (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT NOT NULL,
+  user_id INT NOT NULL UNIQUE,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -52,11 +52,17 @@ CREATE TABLE IF NOT EXISTS specialties (
 
 CREATE TABLE IF NOT EXISTS medics (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT NOT NULL,
+  user_id INT NOT NULL UNIQUE,
   specialty_id INT NOT NULL,
   clinic_address VARCHAR(255) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (specialty_id) REFERENCES specialties(id)
+);
+
+CREATE TABLE IF NOT EXISTS available_time_slots (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  start_time TIME NOT NULL,
+  end_time TIME NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS appointments (
@@ -64,20 +70,27 @@ CREATE TABLE IF NOT EXISTS appointments (
   patient_id INT NOT NULL,
   medic_id INT NOT NULL,
   date DATE NOT NULL,
-  time TIME NOT NULL,
+  time_slot_id INT NOT NULL,
   reason TEXT NOT NULL,
   status_id INT NOT NULL,
   FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
   FOREIGN KEY (medic_id) REFERENCES medics(id) ON DELETE CASCADE,
-  FOREIGN KEY (status_id) REFERENCES appointment_statuses(id)
+  FOREIGN KEY (status_id) REFERENCES appointment_statuses(id),
+  FOREIGN KEY (time_slot_id) REFERENCES available_time_slots(id)
 );
 
-CREATE TABLE IF NOT EXISTS medic_schedules (
+CREATE TABLE IF NOT EXISTS medic_availabilities (
   id INT AUTO_INCREMENT PRIMARY KEY,
   medic_id INT NOT NULL,
-  weekday_id INT NOT NULL,
   start_time TIME NOT NULL,
   end_time TIME NOT NULL,
-  FOREIGN KEY (medic_id) REFERENCES medics(id) ON DELETE CASCADE,
+  FOREIGN KEY (medic_id) REFERENCES medics(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS medic_availability_weekdays (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  availability_id INT NOT NULL,
+  weekday_id INT NOT NULL,
+  FOREIGN KEY (availability_id) REFERENCES medic_availabilities(id) ON DELETE CASCADE,
   FOREIGN KEY (weekday_id) REFERENCES weekdays(id)
 );
