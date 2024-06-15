@@ -17,7 +17,7 @@ const Patient = sequelize.define('Patient', {
         allowNull: false,
         unique: true,
         references: {
-            model: 'users',
+            model: User,
             key: 'id'
         }
     }

@@ -73,8 +73,8 @@ CREATE TABLE IF NOT EXISTS appointments (
   time_slot_id INT NOT NULL,
   reason TEXT NOT NULL,
   status_id INT NOT NULL,
-  FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
-  FOREIGN KEY (medic_id) REFERENCES medics(id) ON DELETE CASCADE,
+  FOREIGN KEY (patient_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (medic_id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (status_id) REFERENCES appointment_statuses(id),
   FOREIGN KEY (time_slot_id) REFERENCES available_time_slots(id)
 );

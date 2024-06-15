@@ -79,10 +79,14 @@ INSERT INTO available_time_slots (start_time, end_time) VALUES
 INSERT INTO users (first_name, last_name, gender_id, email, password, birth_date, photo, role_id)
 VALUES
 ('Mariano', 'Camposeco', 1, 'mariano@outlook.es', '$2a$10$mpnWHTXDlbuC/DfFMoqsEe03Z9yvtxU8DQgkDbdUiHk9HS2OymNwK', '2000-12-09', '1718424348439-Medico.jpg', 2),
-('Francisco', 'Camposeco', 1, 'francisco@outlook.es', '$2a$10$mpnWHTXDlbuC/DfFMoqsEe03Z9yvtxU8DQgkDbdUiHk9HS2OymNwK', '2000-12-09', '1718424417027-Paciente.webp', 1);
+('Francisco', 'Camposeco', 1, 'francisco@outlook.es', '$2a$10$mpnWHTXDlbuC/DfFMoqsEe03Z9yvtxU8DQgkDbdUiHk9HS2OymNwK', '2000-12-09', '1718424417027-Paciente.webp', 1),
+('Lisbeth', 'Hernádez', 1, 'lisbeth@outlook.es', '$2a$10$mpnWHTXDlbuC/DfFMoqsEe03Z9yvtxU8DQgkDbdUiHk9HS2OymNwK', '2000-12-09', '1718479555638-Lisbeth.jpg', 2);
 
 INSERT INTO medics (id, user_id, specialty_id, clinic_address) VALUES
 (1, 1, 1, "Cuidad de Guatemala, zona 1, calle 3");
 
 INSERT INTO patients (id, user_id) VALUES
 (1, 2);
+
+INSERT INTO appointments (id, patient_id, medic_id, date, time_slot_id, reason, status_id) VALUES
+(1, 2, 3, '2024-06-15', 1, 'My stomach hurts', 1);

@@ -17,11 +17,15 @@ app.use('/photo',express.static(path.join(`${__dirname}/photo`)));
 const api = '/api';
 const auth = api + '/auth';
 const user = api + '/user';
+const medic = api + '/medic';
 
 const authRouter = require('./app/routes/auth.routes.js');
 const userRouter = require('./app/routes/user.routes.js');
+const medicRouter = require('./app/routes/medic.routes.js');
 
-app.use(auth, authRouter)
-app.use(user, userRouter)
+app.use(auth, authRouter);
+app.use(user, userRouter);
+app.use(medic, medicRouter);
+
 
 module.exports = app;

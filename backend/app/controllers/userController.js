@@ -1,3 +1,7 @@
+/*
+* @authors
+* Mariano Camposeco {@literal (mariano1941@outlook.es)}
+*/
 const sequelize = require('../../config/connectionDB');
 const User = require('../models/User');
 const Medic = require('../models/Medic');

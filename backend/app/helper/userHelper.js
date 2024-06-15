@@ -1,3 +1,7 @@
+/*
+* @authors
+* Mariano Camposeco {@literal (mariano1941@outlook.es)}
+*/
 const User = require('../models/User');
 const Medic = require('../models/Medic');
 const Patient = require('../models/Patient');

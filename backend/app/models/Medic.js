@@ -5,6 +5,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/connectionDB');
 const User = require('./User');
+const Speciality = require('./Speciality');
 
 const Medic = sequelize.define('Medic', {
     id: {
@@ -17,7 +18,7 @@ const Medic = sequelize.define('Medic', {
         allowNull: false,
         unique: true,
         references: {
-            model: 'users',
+            model: User,
             key: 'id'
         }
     },
@@ -25,7 +26,7 @@ const Medic = sequelize.define('Medic', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'specialties',
+            model: Speciality,
             key: 'id'
         }
     },
@@ -39,6 +40,7 @@ const Medic = sequelize.define('Medic', {
 });
 
 Medic.belongsTo(User, { foreignKey: 'user_id' });
+Medic.belongsTo(Speciality, { foreignKey: 'specialty_id' });
 User.hasOne(Medic, { foreignKey: 'user_id' });
 
 module.exports = Medic;
