@@ -4,7 +4,6 @@
 */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/connectionDB');
-const MedicAvailability = require('./MedicAvailability');
 const Weekday = require('./Weekday');
 
 const MedicAvailabilityWeekday = sequelize.define('MedicAvailabilityWeekday', {
@@ -16,10 +15,7 @@ const MedicAvailabilityWeekday = sequelize.define('MedicAvailabilityWeekday', {
     availability_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: MedicAvailability,
-            key: 'id'
-        }
+        unique: true
     },
     weekday_id: {
         type: DataTypes.INTEGER,
@@ -28,13 +24,17 @@ const MedicAvailabilityWeekday = sequelize.define('MedicAvailabilityWeekday', {
             model: Weekday,
             key: 'id'
         }
-    }
+    },
+    available: {
+        type: DataTypes.TINYINT(1),
+        allowNull: false,
+        defaultValue: 0
+    },
 }, {
     tableName: 'medic_availability_weekdays',
     timestamps: false
 });
 
-MedicAvailabilityWeekday.belongsTo(Weekday, { foreignKey: 'weekday_id' });
-MedicAvailabilityWeekday.belongsTo(MedicAvailability, { foreignKey: 'availability_id' });
+MedicAvailabilityWeekday.belongsTo(Weekday, { foreignKey: 'weekday_id', as: 'weekday' });
 
 module.exports = MedicAvailabilityWeekday;

@@ -4,7 +4,10 @@
 */
 const express = require('express');
 const router = express.Router();
-const {registerUser, updateUser} = require('../controllers/userController');
+const {
+    registerUser,
+    updateUser
+} = require('../controllers/userController');
 const uploadPhoto = require('../utils/photo');
 
 router.post('', uploadPhoto, registerUser);

@@ -6,6 +6,8 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/connectionDB');
 const Gender = require('./Gender');
 const Role = require('./Role');
+const Medic = require('./Medic');
+const Patient = require('./Patient');
 
 const User = sequelize.define('User', {
     id: {
@@ -59,7 +61,9 @@ const User = sequelize.define('User', {
     timestamps: false
 });
 
-User.belongsTo(Gender, { foreignKey: 'gender_id' });
-User.belongsTo(Role, { foreignKey: 'role_id' });
+User.belongsTo(Gender, { foreignKey: 'gender_id', as: 'gender' });
+User.belongsTo(Role, { foreignKey: 'role_id', as: 'role' });
+User.hasOne(Medic, { foreignKey: 'user_id', as: 'additionalAttributeMedic' });
+User.hasOne(Patient, { foreignKey: 'user_id', as: 'additionalAttributePatient' });
 
 module.exports = User;
