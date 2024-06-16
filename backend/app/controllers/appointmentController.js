@@ -5,28 +5,54 @@
 const { getAppointments } = require('../helper/appointmentHelper');
 const Appointment = require('../models/Appointment');
 
-const getAppointmentsByPatient = async (req, res) => {
+const getAppointmentsPendingByPatient = async (req, res) => {
     const { user_id } = req.params;
 
     try {
-        const appointments = await getAppointments("Patient", user_id);
+        const appointments = await getAppointments("Patient", user_id, 1);
 
         return res.status(200).json({ appointments });
     } catch (error) {
-        console.error('Error in getting appointments by patient:', error.message);
+        console.error('Error in getting appointments pending by patient:', error.message);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
 
-const getAppointmentsByMedic = async (req, res) => {
+const getAppointmentsPendingByMedic = async (req, res) => {
     const { user_id } = req.params;
 
     try {
-        const appointments = await getAppointments("Medic", user_id);
+        const appointments = await getAppointments("Medic", user_id, 1);
 
         return res.status(200).json({ appointments });
     } catch (error) {
-        console.error('Error in getting appointments by medic:', error.message);
+        console.error('Error in getting appointments pending by medic:', error.message);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+const getAppointmentsAttendAndCancelledByPatient = async (req, res) => {
+    const { user_id } = req.params;
+
+    try {
+        const appointments = await getAppointments("Patient", user_id, [2, 3, 4]);
+
+        return res.status(200).json({ appointments });
+    } catch (error) {
+        console.error('Error in getting appointments attended and cancelled by patient:', error.message);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+const getAppointmentsAttendAndCancelledByMedic = async (req, res) => {
+    const { user_id } = req.params;
+
+    try {
+        const appointments = await getAppointments("Medic", user_id, [2, 3, 4]);
+
+        return res.status(200).json({ appointments });
+    } catch (error) {
+        console.error('Error in getting appointments attended and cancelled by medic:', error.message);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
@@ -64,9 +90,11 @@ const cancelAppointmentByMedic = async (req, res) => {
 };
 
 module.exports = {
-    getAppointmentsByPatient,
-    getAppointmentsByMedic,
+    getAppointmentsPendingByPatient,
+    getAppointmentsPendingByMedic,
+    getAppointmentsAttendAndCancelledByPatient,
+    getAppointmentsAttendAndCancelledByMedic,
     attendAppointment,
     cancelAppointmentByPatient,
-    cancelAppointmentByMedic
+    cancelAppointmentByMedic,
 };

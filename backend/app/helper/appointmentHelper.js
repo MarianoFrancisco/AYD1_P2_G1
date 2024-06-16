@@ -12,13 +12,13 @@ const Specialty = require('../models/Specialty');
 const AppointmentStatus = require('../models/AppointmentStatus');
 const AvailableTimeSlot = require('../models/AvailableTimeSlot');
 
-const getAppointments = async (type, id_user) => {
+const getAppointments = async (type, id_user, status_id) => {
     try {
         let appointments = [];
         if (type === "Patient") {
-            appointments = getAppointmentsByCondition({patient_id: id_user, status_id: 1});
+            appointments = getAppointmentsByCondition({patient_id: id_user, status_id: status_id});
         } else if (type === "Medic") {
-            appointments = getAppointmentsByCondition({medic_id: id_user, status_id: 1});
+            appointments = getAppointmentsByCondition({medic_id: id_user, status_id: status_id});
         }
 
         return appointments;

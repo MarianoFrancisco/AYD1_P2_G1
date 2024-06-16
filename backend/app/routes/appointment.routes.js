@@ -5,16 +5,22 @@
 const express = require('express');
 const router = express.Router();
 const {
-    getAppointmentsByPatient,
-    getAppointmentsByMedic,
+    getAppointmentsPendingByPatient,
+    getAppointmentsPendingByMedic,
+    getAppointmentsAttendAndCancelledByPatient,
+    getAppointmentsAttendAndCancelledByMedic,
     attendAppointment,
     cancelAppointmentByPatient,
     cancelAppointmentByMedic
 } = require('../controllers/appointmentController');
 
-router.get('/patient/:user_id', getAppointmentsByPatient);
+router.get('/patient/pending/:user_id', getAppointmentsPendingByPatient);
 
-router.get('/medic/:user_id', getAppointmentsByMedic);
+router.get('/medic/pending/:user_id', getAppointmentsPendingByMedic);
+
+router.get('/patient/history/:user_id', getAppointmentsAttendAndCancelledByPatient);
+
+router.get('/medic/history/:user_id', getAppointmentsAttendAndCancelledByMedic);
 
 router.patch('/patient/cancelled/:id', cancelAppointmentByPatient);
 
