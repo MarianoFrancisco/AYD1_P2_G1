@@ -44,28 +44,9 @@ const createUserResponse = (user) => {
     return userResponse;
 };
 
-const getUserById = async (id) => {
+const getUserRestrictions = async (whereCondition) => {
     try {
-        const user = await User.findOne({
-            where: { id },
-            include: [
-                {
-                    model: Medic,
-                    as: 'additionalAttributeMedic',
-                    attributes: ['id', 'specialty_id', 'clinic_address'],
-                    include: [
-                        {
-                            model: Specialty,
-                            attributes: ['id', 'name']
-                        }
-                    ],
-                    required: false
-                },
-                { model: Patient, as: 'additionalAttributePatient', attributes: ['id'], required: false },
-                { model: Gender, as: 'gender', attributes: ['id', 'name'], required: true },
-                { model: Role, as: 'role', attributes: ['id', 'name'], required: true }
-            ]
-        });
+        const user = await getUserRestrictions(whereCondition);
         if (!user) {
             return null;
         }
@@ -79,10 +60,10 @@ const getUserById = async (id) => {
     }
 };
 
-const getUserByEmail = async (email) => {
+const getUser = async (whereCondition) => {
     try {
         const user = await User.findOne({
-            where: { email },
+            where: whereCondition,
             include: [
                 {
                     model: Medic,
@@ -112,4 +93,4 @@ const getUserByEmail = async (email) => {
     }
 };
 
-module.exports = { getUserById, getUserByEmail, createUserResponse };
+module.exports = { getUser, getUserRestrictions, createUserResponse };

@@ -172,10 +172,10 @@ VALUES
 
 INSERT INTO medics (id, user_id, specialty_id, clinic_address) VALUES
 (1, 1, 1, "Cuidad de Guatemala, zona 1, calle 3"),
-(1, 3, 2, "Cuidad de Guatemala, zona 1, calle 3");
+(2, 3, 2, "Cuidad de Guatemala, zona 1, calle 3");
 
 INSERT INTO patients (id, user_id) VALUES
 (1, 2);
 
 INSERT INTO appointments (id, patient_id, medic_id, date, time_slot_id, reason, status_id) VALUES
-(1, 2, 3, '2024-06-18', 1, 'My stomach hurts', 9);
+(1, 2, 3, '2024-06-18', 9, 'My stomach hurts', 1);

@@ -12,7 +12,7 @@ const getMedicsByPatient = async (req, res) => {
 
         return res.status(200).json({ medics });
     } catch (error) {
-        console.error('Error in getting medics by patient:', error);
+        console.error('Error in getting medics by patient:', error.message);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
