@@ -10,10 +10,10 @@ const Appointment = require('../models/Appointment');
 const Specialty = require('../models/Specialty');
 const { createUserResponse } = require('../helper/userHelper');
 
-const getMedicsWithoutPendingAppointmentsByUser = async (user_id) => {
+const getMedicsWithoutPendingAppointmentsByUser = async (user_id, whereCondition) => {
     try {
         const users = await User.findAll({
-            where: { role_id: 2 },
+            where: whereCondition,
             include: [
                 {
                     model: Medic,
