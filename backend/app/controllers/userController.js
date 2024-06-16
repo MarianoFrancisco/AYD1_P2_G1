@@ -7,7 +7,7 @@ const User = require('../models/User');
 const Medic = require('../models/Medic');
 const Patient = require('../models/Patient');
 const { hashPassword } = require('../utils/encryption');
-const {getUserRestriction} = require('../helper/userHelper');
+const { getUserRestriction } = require('../helper/userHelper');
 const path = require('path');
 const fs = require('fs');
 
@@ -138,7 +138,7 @@ const updateUser = async (req, res) => {
 
             await transaction.commit();
 
-            const updatedUserResponse = await getUserRestriction({id: updatedUser.id});
+            const updatedUserResponse = await getUserRestriction({ id: updatedUser.id });
 
             res.status(200).json({ message: 'User updated successfully', user: updatedUserResponse });
         } catch (error) {
@@ -152,4 +152,7 @@ const updateUser = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, updateUser };
+module.exports = {
+    registerUser,
+    updateUser
+};
