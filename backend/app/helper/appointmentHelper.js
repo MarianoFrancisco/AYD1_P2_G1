@@ -11,6 +11,7 @@ const Role = require('../models/Role');
 const Specialty = require('../models/Specialty');
 const AppointmentStatus = require('../models/AppointmentStatus');
 const AvailableTimeSlot = require('../models/AvailableTimeSlot');
+const { createUserResponse } = require('../helper/userHelper');
 
 const getAppointments = async (type, id_user, status_id) => {
     try {
@@ -74,7 +75,18 @@ const getAppointmentsByCondition = async (whereCondition) => {
                 }
             ]
         });
-        return appointments;
+        const formattedAppointments = appointments.map(appointment => {
+            const patient = createUserResponse(appointment.patient);
+            const medic = createUserResponse(appointment.medic);
+
+            return {
+                ...appointment.toJSON(),
+                patient,
+                medic
+            };
+        });
+
+        return formattedAppointments;
     } catch (error) {
         console.error('Error in getting appointments by patient:', error);
         throw error;

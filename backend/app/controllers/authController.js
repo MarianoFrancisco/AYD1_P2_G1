@@ -5,7 +5,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { createUserResponse } = require('../helper/userHelper');
-const {getUser} = require('../helper/userHelper');
+const { getUser } = require('../helper/userHelper');
 
 const login = async (req, res) => {
     try {

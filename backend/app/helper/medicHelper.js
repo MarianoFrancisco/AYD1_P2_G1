@@ -7,6 +7,7 @@ const Medic = require('../models/Medic');
 const Gender = require('../models/Gender');
 const Role = require('../models/Role');
 const Appointment = require('../models/Appointment');
+const Specialty = require('../models/Specialty');
 const { createUserResponse } = require('../helper/userHelper');
 
 const getMedicsWithoutPendingAppointmentsByUser = async (user_id) => {
@@ -14,9 +15,20 @@ const getMedicsWithoutPendingAppointmentsByUser = async (user_id) => {
         const users = await User.findAll({
             where: { role_id: 2 },
             include: [
-                { model: Medic, attributes: ['id', 'specialty_id', 'clinic_address'], required: false },
-                { model: Gender, attributes: ['id', 'name'], required: true },
-                { model: Role, attributes: ['id', 'name'], required: true }
+                {
+                    model: Medic,
+                    as: 'additionalAttributeMedic',
+                    attributes: ['id', 'specialty_id', 'clinic_address'],
+                    include: [
+                        {
+                            model: Specialty,
+                            attributes: ['id', 'name']
+                        }
+                    ],
+                    required: true
+                },
+                { model: Gender, as: 'gender', attributes: ['id', 'name'], required: true },
+                { model: Role, as: 'role', attributes: ['id', 'name'], required: true }
             ]
         });
 
