@@ -2,9 +2,14 @@
 * @authors
 * Mariano Camposeco {@literal (mariano1941@outlook.es)}
 */
+const sequelize = require('../../config/connectionDB');
+const { getScheduleAndDays } = require('../helper/medicAvailabilityHelper');
 const MedicAvailability = require('../models/MedicAvailability');
 const MedicAvailabilityWeekday = require('../models/MedicAvailabilityWeekday');
-const sequelize = require('../../config/connectionDB');
+const AvailableTimeSlot = require('../models/AvailableTimeSlot');
+const Appointment = require('../models/Appointment');
+const { Op } = require('sequelize');
+const moment = require('moment');
 
 const registerSchedule = async (req, res) => {
     const { monday, tuesday, wednesday, thursday, friday, saturday, sunday,
@@ -46,4 +51,81 @@ const registerSchedule = async (req, res) => {
     }
 };
 
-module.exports = { registerSchedule };
+const getScheduleByMedic = async (req, res) => {
+    const { user_id } = req.params;
+
+    try {
+        const schedule = await getScheduleAndDays(user_id);
+
+        return res.status(200).json({ schedule });
+    } catch (error) {
+        console.error('Error in getting schedule by medic:', error.message);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+const getSchedulesByDate = async (req, res) => {
+    const { availability_id, medic_id, start_time, end_time, date } = req.body;
+
+    const weekdayId = moment(date).isoWeekday();
+
+    try {
+        const medic_availability_weekday = await MedicAvailabilityWeekday.findOne({
+            where: {
+                availability_id,
+                weekday_id: weekdayId,
+                available: 1
+            }
+        });
+        if (!medic_availability_weekday) {
+            return res.status(404).json({ message: 'No schedules available for this doctor on this date' });
+        }
+
+        const availableTimeSlots = await AvailableTimeSlot.findAll({
+            where: {
+                start_time: {
+                    [Op.gte]: start_time,
+                    [Op.lt]: end_time
+                }
+            }
+        });
+
+        const availableSchedules = [];
+        for (let i = 0; i < availableTimeSlots.length; i++) {
+            const timeSlot = availableTimeSlots[i];
+            const appointment = await Appointment.findOne({
+                where: {
+                    medic_id,
+                    date,
+                    time_slot_id: timeSlot.id
+                }
+            });
+            let is_available = 1;
+            if (appointment) {
+                is_available = 0;
+            }
+
+            availableSchedules.push({
+                id: timeSlot.id,
+                start_time: timeSlot.start_time,
+                end_time: timeSlot.end_time,
+                available: is_available
+            });
+        }
+
+        if (availableSchedules.length === 0) {
+            return res.status(404).json({ message: 'No available schedules on this date' });
+        }
+
+        return res.status(200).json({ availableSchedules });
+    } catch (error) {
+        console.error('Error in getting schedule by date:', error.message);
+        return res.status(500).json({ message: 'Error retrieving schedules by date' });
+    }
+};
+
+module.exports = {
+    registerSchedule,
+    getScheduleByMedic,
+    getSchedulesByDate
+};

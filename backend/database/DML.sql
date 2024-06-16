@@ -110,4 +110,4 @@ INSERT INTO patients (id, user_id) VALUES
 (1, 2);
 
 INSERT INTO appointments (id, patient_id, medic_id, date, time_slot_id, reason, status_id) VALUES
-(1, 2, 3, '2024-06-18', 9, 'My stomach hurts', 1);
+(1, 2, 3, '2024-06-17', 12, 'My stomach hurts', 1);
