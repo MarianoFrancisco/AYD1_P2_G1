@@ -19,16 +19,18 @@ const auth = api + '/auth';
 const user = api + '/user';
 const medic = api + '/medic';
 const appointment = api + '/appointment';
+const schedule = api + '/schedule';
 
 const authRouter = require('./app/routes/auth.routes.js');
 const userRouter = require('./app/routes/user.routes.js');
 const medicRouter = require('./app/routes/medic.routes.js');
 const appointmentRouter = require('./app/routes/appointment.routes.js');
+const scheduleRouter = require('./app/routes/schedule.routes.js');
 
 app.use(auth, authRouter);
 app.use(user, userRouter);
 app.use(medic, medicRouter);
 app.use(appointment, appointmentRouter);
-
+app.use(schedule, scheduleRouter);
 
 module.exports = app;

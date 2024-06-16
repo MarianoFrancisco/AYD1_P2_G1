@@ -81,13 +81,14 @@ CREATE TABLE IF NOT EXISTS medic_availabilities (
   medic_id INT NOT NULL,
   start_time TIME NOT NULL,
   end_time TIME NOT NULL,
-  FOREIGN KEY (medic_id) REFERENCES medics(id) ON DELETE CASCADE
+  FOREIGN KEY (medic_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS medic_availability_weekdays (
   id INT AUTO_INCREMENT PRIMARY KEY,
   availability_id INT NOT NULL,
   weekday_id INT NOT NULL,
+  available TINYINT(1) NOT NULL DEFAULT 0,
   FOREIGN KEY (availability_id) REFERENCES medic_availabilities(id) ON DELETE CASCADE,
   FOREIGN KEY (weekday_id) REFERENCES weekdays(id)
 );
@@ -173,6 +174,26 @@ VALUES
 INSERT INTO medics (id, user_id, specialty_id, clinic_address) VALUES
 (1, 1, 1, "Cuidad de Guatemala, zona 1, calle 3"),
 (2, 3, 2, "Cuidad de Guatemala, zona 1, calle 3");
+
+INSERT INTO medic_availabilities (id, medic_id, start_time, end_time) VALUES
+(1, 1, '09:00:00', '17:00:00'),
+(2, 3, '09:00:00', '17:00:00');
+
+INSERT INTO medic_availability_weekdays (id, availability_id, weekday_id, available) VALUES
+(1, 1, 1, 1),
+(2, 1, 2, 0),
+(3, 1, 3, 1),
+(4, 1, 4, 0),
+(5, 1, 5, 1),
+(6, 1, 6, 0),
+(7, 1, 7, 0),
+(8, 2, 1, 1),
+(9, 2, 2, 1),
+(10, 2, 3, 1),
+(11, 2, 4, 1),
+(12, 2, 5, 1),
+(13, 2, 6, 0),
+(14, 2, 7, 0);
 
 INSERT INTO patients (id, user_id) VALUES
 (1, 2);

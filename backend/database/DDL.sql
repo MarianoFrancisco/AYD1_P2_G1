@@ -84,13 +84,14 @@ CREATE TABLE IF NOT EXISTS medic_availabilities (
   medic_id INT NOT NULL,
   start_time TIME NOT NULL,
   end_time TIME NOT NULL,
-  FOREIGN KEY (medic_id) REFERENCES medics(id) ON DELETE CASCADE
+  FOREIGN KEY (medic_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS medic_availability_weekdays (
   id INT AUTO_INCREMENT PRIMARY KEY,
   availability_id INT NOT NULL,
   weekday_id INT NOT NULL,
+  available TINYINT(1) NOT NULL DEFAULT 0,
   FOREIGN KEY (availability_id) REFERENCES medic_availabilities(id) ON DELETE CASCADE,
   FOREIGN KEY (weekday_id) REFERENCES weekdays(id)
 );

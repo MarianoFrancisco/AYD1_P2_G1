@@ -2,19 +2,48 @@
 * @authors
 * Mariano Camposeco {@literal (mariano1941@outlook.es)}
 */
-const {getMedicsWithoutPendingAppointmentsByUser} = require('../helper/medicHelper');
+const MedicAvailability = require('../models/MedicAvailability');
+const MedicAvailabilityWeekday = require('../models/MedicAvailabilityWeekday');
+const sequelize = require('../../config/connectionDB');
 
-const getMedicsByPatient = async (req, res) => {
-    const { user_id } = req.params;
+const registerSchedule = async (req, res) => {
+    const { monday, tuesday, wednesday, thursday, friday, saturday, sunday,
+        medic_id, start_time, end_time } = req.body;
+
+    const days = [monday, tuesday, wednesday, thursday, friday, saturday, sunday];
 
     try {
-        const medics = await getMedicsWithoutPendingAppointmentsByUser(user_id);
+        const transaction = await sequelize.transaction();
 
-        return res.status(200).json({ medics });
+        const medic_availability = await MedicAvailability.create(
+            {
+                medic_id,
+                start_time,
+                end_time
+            },
+            { transaction }
+        );
+
+        for (let i = 0; i < days.length; i++) {
+            const available = days[i] === 1 ? 1 : 0;
+
+            await MedicAvailabilityWeekday.create(
+                {
+                    availability_id: medic_availability.id,
+                    weekday_id: i + 1,
+                    available: available
+                },
+                { transaction }
+            );
+        }
+
+        await transaction.commit();
+
+        res.status(201).json({ message: 'Schedule registered successfully' });
     } catch (error) {
-        console.error('Error in getting medics by patient:', error.message);
-        return res.status(500).json({ error: 'Internal Server Error' });
+        if (transaction) await transaction.rollback();
+        res.status(500).json({ error: error.message });
     }
 };
 
-module.exports = { getMedicsByPatient};
+module.exports = { registerSchedule };

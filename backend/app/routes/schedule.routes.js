@@ -5,13 +5,9 @@
 const express = require('express');
 const router = express.Router();
 const {
-    registerUser,
-    updateUser
-} = require('../controllers/userController');
-const uploadPhoto = require('../utils/photo');
+    registerSchedule
+} = require('../controllers/scheduleController');
 
-router.post('', uploadPhoto, registerUser);
-
-router.put('/:id', uploadPhoto, updateUser);
+router.post('', registerSchedule);
 
 module.exports = router;

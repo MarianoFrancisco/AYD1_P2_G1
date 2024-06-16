@@ -28,13 +28,18 @@ const MedicAvailabilityWeekday = sequelize.define('MedicAvailabilityWeekday', {
             model: Weekday,
             key: 'id'
         }
-    }
+    },
+    available: {
+        type: DataTypes.TINYINT(1),
+        allowNull: false,
+        defaultValue: 0
+    },
 }, {
     tableName: 'medic_availability_weekdays',
     timestamps: false
 });
 
-MedicAvailabilityWeekday.belongsTo(Weekday, { foreignKey: 'weekday_id' });
+MedicAvailabilityWeekday.belongsTo(Weekday, { foreignKey: 'weekday_id', as: 'weekday' });
 MedicAvailabilityWeekday.belongsTo(MedicAvailability, { foreignKey: 'availability_id' });
 
 module.exports = MedicAvailabilityWeekday;
