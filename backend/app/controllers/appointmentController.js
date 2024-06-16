@@ -31,7 +31,7 @@ const getAppointmentsByMedic = async (req, res) => {
     }
 };
 
-const attendAppointments = async (req, res) => {
+const changeAppointmentStatus = async (req, res, statusId) => {
     const { id } = req.params;
 
     try {
@@ -41,19 +41,32 @@ const attendAppointments = async (req, res) => {
             return res.status(404).json({ error: 'Appointment not found' });
         }
 
-        appointment.status_id = 2;
+        appointment.status_id = statusId;
         await appointment.save();
 
         return res.status(200).json({ appointment });
     } catch (error) {
-        console.error('Error when changing status to attend an appointment:', error.message);
+        console.error(`Error when changing status to ${statusId} for an appointment:`, error.message);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
 
+const attendAppointment = async (req, res) => {
+    return changeAppointmentStatus(req, res, 2); // 2 "attended"
+};
+
+const cancelAppointmentByPatient = async (req, res) => {
+    return changeAppointmentStatus(req, res, 3); // 3 "cancelled by patient"
+};
+
+const cancelAppointmentByMedic = async (req, res) => {
+    return changeAppointmentStatus(req, res, 4); // 4 "cancelled by medic"
+};
 
 module.exports = {
     getAppointmentsByPatient,
     getAppointmentsByMedic,
-    attendAppointments
+    attendAppointment,
+    cancelAppointmentByPatient,
+    cancelAppointmentByMedic
 };

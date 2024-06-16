@@ -7,17 +7,19 @@ const router = express.Router();
 const {
     getAppointmentsByPatient,
     getAppointmentsByMedic,
-    attendAppointments
+    attendAppointment,
+    cancelAppointmentByPatient,
+    cancelAppointmentByMedic
 } = require('../controllers/appointmentController');
 
 router.get('/patient/:user_id', getAppointmentsByPatient);
 
 router.get('/medic/:user_id', getAppointmentsByMedic);
 
-router.patch('/patient/canceled/:id', getAppointmentsByMedic);
+router.patch('/patient/cancelled/:id', cancelAppointmentByPatient);
 
-router.patch('/medic/attended/:id', attendAppointments);
+router.patch('/medic/attended/:id', attendAppointment);
 
-router.patch('/medic/canceled/:id', getAppointmentsByMedic);
+router.patch('/medic/cancelled/:id', cancelAppointmentByMedic);
 
 module.exports = router;
