@@ -18,6 +18,9 @@ const patient = '/patient';
 const medic = '/medic';
 const pending = '/pending';
 const cancelled = '/cancelled';
+const attended = '/attended';
+const pathId = '/:id';
+
 
 // GET /patient/pending?user_id=value
 router.get(patient + pending, getAppointmentsPendingByPatient);
@@ -33,10 +36,13 @@ router.get(medic, getAppointmentsAttendAndCancelledByMedic);
 
 router.post('', registerAppointment);
 
-router.patch('/patient/cancelled/:id', cancelAppointmentByPatient);
+// PUT /patient/cancelled/value
+router.patch(patient + cancelled + pathId, cancelAppointmentByPatient);
 
-router.patch('/medic/attended/:id', attendAppointment);
+// PUT /medic/attended/value
+router.patch(medic + attended + pathId, attendAppointment);
 
-router.patch('/medic/cancelled/:id', cancelAppointmentByMedic);
+// PUT /medic/cancelled/value
+router.patch(medic + cancelled + pathId, cancelAppointmentByMedic);
 
 module.exports = router;
