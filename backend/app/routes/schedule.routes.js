@@ -24,6 +24,7 @@ router.get(date, getSchedulesByDate);
 
 router.post('', registerSchedule);
 
+// PUT /medic/value
 router.put(medic + pathMedicId, updateSchedule);
 
 module.exports = router;
