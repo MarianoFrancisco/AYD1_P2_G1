@@ -6,7 +6,7 @@ const { getMedicsWithoutPendingAppointmentsByUser } = require('../helper/medicHe
 const { Op } = require('sequelize');
 
 const getMedicsByPatient = async (req, res) => {
-    const { user_id } = req.params;
+    const { user_id } = req.query;
 
     try {
         const medics = await getMedicsWithoutPendingAppointmentsByUser(user_id, { role_id: 2 });
@@ -19,7 +19,7 @@ const getMedicsByPatient = async (req, res) => {
 };
 
 const getMedicsBySpecialty = async (req, res) => {
-    const { user_id, specialty } = req.params;
+    const { user_id, specialty } = req.query;
 
     try {
         let whereClause = { role_id: 2 };

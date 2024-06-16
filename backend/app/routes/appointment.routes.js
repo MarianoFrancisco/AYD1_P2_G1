@@ -14,14 +14,22 @@ const {
     cancelAppointmentByPatient,
     cancelAppointmentByMedic
 } = require('../controllers/appointmentController');
+const patient = '/patient';
+const medic = '/medic';
+const pending = '/pending';
+const cancelled = '/cancelled';
 
-router.get('/patient/pending/:user_id', getAppointmentsPendingByPatient);
+// GET /patient/pending?user_id=value
+router.get(patient + pending, getAppointmentsPendingByPatient);
 
-router.get('/medic/pending/:user_id', getAppointmentsPendingByMedic);
+// GET /medic/pending?user_id=value
+router.get(medic + pending, getAppointmentsPendingByMedic);
 
-router.get('/patient/history/:user_id', getAppointmentsAttendAndCancelledByPatient);
+// GET /patient?user_id=value
+router.get(patient, getAppointmentsAttendAndCancelledByPatient);
 
-router.get('/medic/history/:user_id', getAppointmentsAttendAndCancelledByMedic);
+// GET /medic?user_id=value
+router.get(medic, getAppointmentsAttendAndCancelledByMedic);
 
 router.post('', registerAppointment);
 

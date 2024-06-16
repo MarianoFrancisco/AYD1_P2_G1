@@ -12,10 +12,10 @@ const Specialty = require('../models/Specialty');
 const Weekday = require('../models/Weekday');
 const { createUserResponse } = require('./userHelper');
 
-const getScheduleAndDays = async (user_id) => {
+const getScheduleAndDays = async (medic_id) => {
     try {
         const medic_availability = await MedicAvailability.findOne({
-            where: { medic_id: user_id },
+            where: { medic_id },
             include: [
                 {
                     model: User,
