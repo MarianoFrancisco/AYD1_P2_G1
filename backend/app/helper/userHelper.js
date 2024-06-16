@@ -46,7 +46,7 @@ const createUserResponse = (user) => {
 
 const getUserRestrictions = async (whereCondition) => {
     try {
-        const user = await getUserRestrictions(whereCondition);
+        const user = await getUser(whereCondition);
         if (!user) {
             return null;
         }

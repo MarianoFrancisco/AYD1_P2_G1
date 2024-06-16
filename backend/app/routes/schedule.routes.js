@@ -7,13 +7,17 @@ const router = express.Router();
 const {
     registerSchedule,
     getScheduleByMedic,
-    getSchedulesByDate
+    getSchedulesByDate,
+    updateSchedule
 } = require('../controllers/scheduleController');
 
-router.post('', registerSchedule);
 
 router.get('/medic/:user_id', getScheduleByMedic);
 
 router.get('/date/:user_id', getSchedulesByDate);
+
+router.post('', registerSchedule);
+
+router.put('/:user_id', updateSchedule);
 
 module.exports = router;

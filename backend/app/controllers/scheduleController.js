@@ -124,8 +124,63 @@ const getSchedulesByDate = async (req, res) => {
     }
 };
 
+const updateSchedule = async (req, res) => {
+    const { monday, tuesday, wednesday, thursday, friday, saturday, sunday,
+        medic_id, start_time, end_time } = req.body;
+
+    const days = [monday, tuesday, wednesday, thursday, friday, saturday, sunday];
+
+    try {
+        const transaction = await sequelize.transaction();
+
+        let medic_availability = await MedicAvailability.findOne({
+            where: { medic_id },
+            transaction
+        });
+
+        if (!medic_availability) {
+            await transaction.rollback();
+            return res.status(404).json({ error: 'Schedule must be registered before updating' });
+        }
+
+        medic_availability.start_time = start_time;
+        medic_availability.end_time = end_time;
+        await medic_availability.save({ transaction });
+
+        for (let i = 0; i < days.length; i++) {
+            const weekday_id = i + 1;
+            const available = days[i] === 1 ? 1 : 0;
+
+            let availabilityWeekday = await MedicAvailabilityWeekday.findOne({
+                where: {
+                    availability_id: medic_availability.id,
+                    weekday_id
+                },
+                transaction
+            });
+
+            if (!availabilityWeekday) {
+                await transaction.rollback();
+                return res.status(404).json({ error: `Availability entry for weekday ${weekday_id} does not exist` });
+            }
+
+            availabilityWeekday.available = available;
+            await availabilityWeekday.save({ transaction });
+        }
+
+        await transaction.commit();
+
+        res.status(200).json({ message: 'Schedule updated successfully' });
+    } catch (error) {
+        console.error(error);
+        if (transaction) await transaction.rollback();
+        res.status(500).json({ error: 'Error updating schedule' });
+    }
+};
+
 module.exports = {
     registerSchedule,
     getScheduleByMedic,
-    getSchedulesByDate
+    getSchedulesByDate,
+    updateSchedule
 };
