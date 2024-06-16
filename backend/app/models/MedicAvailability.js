@@ -4,6 +4,8 @@
 */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/connectionDB');
+const User = require('./User');
+const MedicAvailabilityWeekday = require('./MedicAvailabilityWeekday');
 
 const MedicAvailability = sequelize.define('MedicAvailability', {
     id: {
@@ -15,7 +17,7 @@ const MedicAvailability = sequelize.define('MedicAvailability', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'medics',
+            model: User,
             key: 'id'
         }
     },
@@ -31,5 +33,8 @@ const MedicAvailability = sequelize.define('MedicAvailability', {
     tableName: 'medic_availabilities',
     timestamps: false
 });
+
+MedicAvailability.belongsTo(User, { foreignKey: 'medic_id', as: 'medic' });
+MedicAvailability.hasMany(MedicAvailabilityWeekday, { foreignKey: 'availability_id', as: 'medic_availability_weekdays' });
 
 module.exports = MedicAvailability;

@@ -4,11 +4,16 @@
 */
 const express = require('express');
 const router = express.Router();
-const {registerUser, updateUser} = require('../controllers/userController');
+const {
+    registerUser,
+    updateUser
+} = require('../controllers/userController');
 const uploadPhoto = require('../utils/photo');
+const pathId = '/:id';
 
 router.post('', uploadPhoto, registerUser);
 
-router.put('/:id', uploadPhoto, updateUser);
+// PUT /value
+router.put(pathId, uploadPhoto, updateUser);
 
 module.exports = router;

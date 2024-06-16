@@ -1,9 +1,13 @@
+/*
+* @authors
+* Mariano Camposeco {@literal (mariano1941@outlook.es)}
+*/
 const sequelize = require('../../config/connectionDB');
 const User = require('../models/User');
 const Medic = require('../models/Medic');
 const Patient = require('../models/Patient');
 const { hashPassword } = require('../utils/encryption');
-const {getUser} = require('../helper/userHelper');
+const { getUserRestrictions } = require('../helper/userHelper');
 const path = require('path');
 const fs = require('fs');
 
@@ -116,7 +120,6 @@ const updateUser = async (req, res) => {
             if (role_id == 1) {
                 const patient = await Patient.findOne({ where: { user_id: updatedUser.id } });
                 if (patient) {
-                    // Realiza alguna operación si es necesario
                 }
             } else if (role_id == 2) {
                 const medic = await Medic.findOne({ where: { user_id: updatedUser.id } });
@@ -134,7 +137,7 @@ const updateUser = async (req, res) => {
 
             await transaction.commit();
 
-            const updatedUserResponse = await getUser(updatedUser.id);
+            const updatedUserResponse = await getUserRestrictions({ id: updatedUser.id });
 
             res.status(200).json({ message: 'User updated successfully', user: updatedUserResponse });
         } catch (error) {
@@ -148,4 +151,7 @@ const updateUser = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, updateUser };
+module.exports = {
+    registerUser,
+    updateUser
+};
