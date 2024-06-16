@@ -44,6 +44,28 @@ const getAppointmentsAttendAndCancelledByPatient = async (req, res) => {
     }
 };
 
+const registerAppointment = async (req, res) => {
+    const { patient_id, medic_id, date, time_slot_id, reason } = req.body;
+
+    try {
+        const newAppointment = await Appointment.create(
+            {
+                patient_id,
+                medic_id,
+                date,
+                time_slot_id,
+                reason,
+                status_id: 1
+            }
+        );
+
+        return res.status(200).json({ newAppointment });
+    } catch (error) {
+        console.error('Error in creating an appointment:', error.message);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
 const getAppointmentsAttendAndCancelledByMedic = async (req, res) => {
     const { user_id } = req.params;
 
@@ -56,6 +78,7 @@ const getAppointmentsAttendAndCancelledByMedic = async (req, res) => {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
 
 const changeAppointmentStatus = async (req, res, statusId) => {
     const { id } = req.params;
@@ -94,6 +117,7 @@ module.exports = {
     getAppointmentsPendingByMedic,
     getAppointmentsAttendAndCancelledByPatient,
     getAppointmentsAttendAndCancelledByMedic,
+    registerAppointment,
     attendAppointment,
     cancelAppointmentByPatient,
     cancelAppointmentByMedic,

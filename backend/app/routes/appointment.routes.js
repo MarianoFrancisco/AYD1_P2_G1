@@ -9,6 +9,7 @@ const {
     getAppointmentsPendingByMedic,
     getAppointmentsAttendAndCancelledByPatient,
     getAppointmentsAttendAndCancelledByMedic,
+    registerAppointment,
     attendAppointment,
     cancelAppointmentByPatient,
     cancelAppointmentByMedic
@@ -21,6 +22,8 @@ router.get('/medic/pending/:user_id', getAppointmentsPendingByMedic);
 router.get('/patient/history/:user_id', getAppointmentsAttendAndCancelledByPatient);
 
 router.get('/medic/history/:user_id', getAppointmentsAttendAndCancelledByMedic);
+
+router.post('', registerAppointment);
 
 router.patch('/patient/cancelled/:id', cancelAppointmentByPatient);
 
