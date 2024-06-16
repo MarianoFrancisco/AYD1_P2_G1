@@ -6,7 +6,7 @@ const { getAppointments } = require('../helper/appointmentHelper');
 const Appointment = require('../models/Appointment');
 
 const getAppointmentsPendingByPatient = async (req, res) => {
-    const { user_id } = req.params;
+    const { user_id } = req.query;
 
     try {
         const appointments = await getAppointments("Patient", user_id, 1);
@@ -19,7 +19,7 @@ const getAppointmentsPendingByPatient = async (req, res) => {
 };
 
 const getAppointmentsPendingByMedic = async (req, res) => {
-    const { user_id } = req.params;
+    const { user_id } = req.query;
 
     try {
         const appointments = await getAppointments("Medic", user_id, 1);
@@ -32,7 +32,7 @@ const getAppointmentsPendingByMedic = async (req, res) => {
 };
 
 const getAppointmentsAttendAndCancelledByPatient = async (req, res) => {
-    const { user_id } = req.params;
+    const { user_id } = req.query;
 
     try {
         const appointments = await getAppointments("Patient", user_id, [2, 3, 4]);
@@ -67,7 +67,7 @@ const registerAppointment = async (req, res) => {
 };
 
 const getAppointmentsAttendAndCancelledByMedic = async (req, res) => {
-    const { user_id } = req.params;
+    const { user_id } = req.query;
 
     try {
         const appointments = await getAppointments("Medic", user_id, [2, 3, 4]);

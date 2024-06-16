@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const { createUserResponse } = require('../helper/userHelper');
 const { getUser } = require('../helper/userHelper');
 
-const login = async (req, res) => {
+const authentication = async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -29,9 +29,9 @@ const login = async (req, res) => {
 
         res.status(200).json({ token });
     } catch (error) {
-        console.error('Error in login:', error.message);
+        console.error('Error in authentication:', error.message);
         res.status(500).json({ error: 'Internal server error' });
     }
 };
 
-module.exports = login;
+module.exports = authentication;

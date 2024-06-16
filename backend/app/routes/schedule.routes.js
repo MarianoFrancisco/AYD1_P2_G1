@@ -10,14 +10,20 @@ const {
     getSchedulesByDate,
     updateSchedule
 } = require('../controllers/scheduleController');
+const medic = '/medic';
+const date = '/date';
+const pathMedicId = '/:medic_id';
 
 
-router.get('/medic/:user_id', getScheduleByMedic);
 
-router.get('/date/:user_id', getSchedulesByDate);
+// GET /medics?medic_id=value
+router.get(medic, getScheduleByMedic);
+
+// GET /date?medic_id=value&date=value
+router.get(date, getSchedulesByDate);
 
 router.post('', registerSchedule);
 
-router.put('/:user_id', updateSchedule);
+router.put(medic + pathMedicId, updateSchedule);
 
 module.exports = router;

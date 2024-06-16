@@ -8,10 +8,13 @@ const {
     getMedicsByPatient,
     getMedicsBySpecialty
 } = require('../controllers/medicController');
-const startUrl = '/patient/:user_id';
+const patient = '/patient';
+const search = '/search';
 
-router.get(startUrl, getMedicsByPatient);
+// GET /patient?user_id=value
+router.get(patient, getMedicsByPatient);
 
-router.get(startUrl + '/specialty/:specialty', getMedicsBySpecialty);
+// GET /patient/search?user_id=value&specialty=value
+router.get(patient + search, getMedicsBySpecialty);
 
 module.exports = router;

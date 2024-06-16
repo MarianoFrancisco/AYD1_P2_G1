@@ -52,10 +52,10 @@ const registerSchedule = async (req, res) => {
 };
 
 const getScheduleByMedic = async (req, res) => {
-    const { user_id } = req.params;
+    const { medic_id } = req.query;
 
     try {
-        const schedule = await getScheduleAndDays(user_id);
+        const schedule = await getScheduleAndDays(medic_id);
 
         return res.status(200).json({ schedule });
     } catch (error) {
@@ -65,27 +65,37 @@ const getScheduleByMedic = async (req, res) => {
 };
 
 const getSchedulesByDate = async (req, res) => {
-    const { availability_id, medic_id, start_time, end_time, date } = req.body;
+    const { medic_id, date } = req.query;
 
     const weekdayId = moment(date).isoWeekday();
 
     try {
+
+        const medic_availability = await MedicAvailability.findOne({
+            where: { medic_id }
+        });
+
+        if (!medic_availability) {
+            return res.status(404).json({ message: 'No medic availability for this doctor on this date' });
+        }
+
         const medic_availability_weekday = await MedicAvailabilityWeekday.findOne({
             where: {
-                availability_id,
+                availability_id : medic_availability.id,
                 weekday_id: weekdayId,
                 available: 1
             }
         });
+
         if (!medic_availability_weekday) {
-            return res.status(404).json({ message: 'No schedules available for this doctor on this date' });
+            return res.status(404).json({ message: 'No medic availability weekday for this doctor on this date' });
         }
 
         const availableTimeSlots = await AvailableTimeSlot.findAll({
             where: {
                 start_time: {
-                    [Op.gte]: start_time,
-                    [Op.lt]: end_time
+                    [Op.gte]: medic_availability.start_time,
+                    [Op.lt]: medic_availability.end_time
                 }
             }
         });
@@ -125,8 +135,9 @@ const getSchedulesByDate = async (req, res) => {
 };
 
 const updateSchedule = async (req, res) => {
-    const { monday, tuesday, wednesday, thursday, friday, saturday, sunday,
-        medic_id, start_time, end_time } = req.body;
+    const { monday, tuesday, wednesday, thursday, friday, saturday, sunday, start_time, end_time } = req.body;
+    
+    const { medic_id } = req.params
 
     const days = [monday, tuesday, wednesday, thursday, friday, saturday, sunday];
 
