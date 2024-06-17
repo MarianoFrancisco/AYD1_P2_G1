@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 import { decodeToken } from 'react-jwt'
 import Cookies from 'js-cookie'
 
-export function PatientHome({ onLogout }) {
+export function DoctorHome({ onLogout }) {
   useEffect(() => {
-    document.title = 'Patient Home | MediCare'
+    document.title = 'Doctor Home | MediCare'
   })
 
   const getUserData = () => {
@@ -20,7 +20,7 @@ export function PatientHome({ onLogout }) {
 
   return (
     <>
-      <h1>PatientHome</h1>
+      <h1>DoctortHome</h1>
       <p>{JSON.stringify(getUserData())}</p>
       <button type='button' onClick={onLogout}>Cerrar sesión</button>
     </>
