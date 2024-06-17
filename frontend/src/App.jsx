@@ -68,7 +68,7 @@ function App() {
           } /> */}
         <Route
           path='/'
-          element={<Navigate to={isLoggedIn !== '' ? '/patient-home' : '/login'} />}
+          element={<Navigate to='/login' />}
         />
       </Routes>
     </Router>
