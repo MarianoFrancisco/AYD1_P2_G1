@@ -11,11 +11,9 @@ export function Registration() {
         }
 
         // En el registro de usuarios, solo se permite que el usuario tenga un rol de 2 (paciente)
-        formData.append("role_id", "2");
+        formData.append("role_id", "1");
         // Para que no se envie el confirm_password
         formData.delete("confirm_password");
-        formData.append("clinic_address", "Cuidad de Guatemala, zona 1, calle 3");
-        formData.append("specialty_id", "3");
 
         let response = await fetch("http://localhost:5000/api/user", {
             method: "POST",
