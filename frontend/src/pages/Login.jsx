@@ -34,7 +34,7 @@ export function Login({ onLogin }) {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50">
-      <div className="sm:w-full sm:max-w-md bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="sm:w-full sm:max-w-md bg-white rounded-lg shadow-sm border border-gray-200 p-8">
         <img className="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=black" alt="Your Company" />
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Iniciar sesión en MediCare</h2>
 
