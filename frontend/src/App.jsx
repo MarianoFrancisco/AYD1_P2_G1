@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { ProtectedRoute } from './ProtectedRoute'
 import { Login } from './pages/Login'
+
 import { PatientHome } from './pages/PatientHome'
 import { DoctorHome } from './pages/DoctorHome'
 import Cookies from 'js-cookie'
@@ -10,6 +11,7 @@ import {
   Routes,
   Navigate,
 } from 'react-router-dom'
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState('')
