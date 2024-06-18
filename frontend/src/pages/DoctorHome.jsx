@@ -1,10 +1,13 @@
 import { useEffect } from 'react'
 import { decodeToken } from 'react-jwt'
 import Cookies from 'js-cookie'
+import DoctorNavBar from '../components/DoctorNavBar'
+
 
 export function DoctorHome({ onLogout }) {
   useEffect(() => {
     document.title = 'Doctor Home | MediCare'
+    
   })
 
   const getUserData = () => {
@@ -20,9 +23,7 @@ export function DoctorHome({ onLogout }) {
 
   return (
     <>
-      <h1>DoctortHome</h1>
-      <p>{JSON.stringify(getUserData())}</p>
-      <button type='button' onClick={onLogout}>Cerrar sesión</button>
+      <DoctorNavBar onLogout={onLogout} />
     </>
   )
 }
