@@ -21,7 +21,9 @@ export function DoctorsPortal({ user_id }) {
       }
     }
 
-    fetchDoctors()
+    if (user_id) {
+      fetchDoctors()
+    }
   }, [user_id])
 
   const handleScheduleAppointment = (medicId) => {
