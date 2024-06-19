@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { ProtectedRoute } from './ProtectedRoute'
 import { Login } from './pages/Login'
-
+import { Registration } from './pages/Registration'
 import { PatientHome } from './pages/PatientHome'
 import { DoctorHome } from './pages/DoctorHome'
 import Cookies from 'js-cookie'
@@ -22,7 +22,7 @@ function App() {
     if (token && token !== isLoggedIn) {
       setIsLoggedIn(token)
     }
-  })
+  }, )
 
   const handleLoginApp = (token) => {
     Cookies.set('token', token)
@@ -61,13 +61,13 @@ function App() {
             </ProtectedRoute>
           }
         />
-        {/* <Route
+        <Route
           path='/register'
           element={
             <ProtectedRoute isLoggedIn={isLoggedIn} type={3}>
               <Registration />
             </ProtectedRoute>
-          } /> */}
+          } />
         <Route
           path='/'
           element={<Navigate to='/login' />}
