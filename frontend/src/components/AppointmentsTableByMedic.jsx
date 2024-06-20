@@ -23,7 +23,7 @@ const AppointmentsTable = ({userId}) => {
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic?user_id=${userId}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic/pending?user_id=${userId}`);
                 console.log(`${import.meta.env.VITE_API_URL}/api/appointment/medic/pending?user_id=${userId}`);
                 const data = await response.json();
                 setAppointments(data.appointments);
