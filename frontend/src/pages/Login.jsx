@@ -68,7 +68,7 @@ export function Login({ onLogin }) {
 
         <p className="mt-10 text-center text-sm text-gray-500">
           ¿Nuevo en MediCare?
-          <a href="#" className="font-semibold leading-6 text-black hover:text-gray-700 ml-1">Regístrate aquí</a>
+          <a href="./register" className="font-semibold leading-6 text-black hover:text-gray-700 ml-1">Regístrate aquí</a>
         </p>
       </div>
     </div>
