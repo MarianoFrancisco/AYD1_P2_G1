@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FaSpinner } from 'react-icons/fa'
 import Swal from 'sweetalert2'
 
 export function Login({ onLogin }) {
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    document.title = 'MediCare'
+  })
 
   const handleSubmit = async (event) => {
     event.preventDefault()
