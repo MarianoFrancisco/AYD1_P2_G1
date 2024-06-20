@@ -9,11 +9,20 @@ export function Registration() {
         event.preventDefault();
 
         let formData = new FormData(event.target);
-        if (formData.get('password') !== formData.get('confirm_password')) {
-            alert("Las contraseñas no coinciden");
+        const password = formData.get('password');
+        const confirmPassword = formData.get('confirm_password');
+
+        // Validación de la contraseña
+        const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        if (!passwordRegex.test(password)) {
+            alert("La contraseña debe tener al menos 8 caracteres, una mayúscula y un número.");
             return;
         }
 
+        if (password !== confirmPassword) {
+            alert("Las contraseñas no coinciden");
+            return;
+        }
 
         let response = await fetch("http://localhost:5000/api/user", {
             method: "POST",
