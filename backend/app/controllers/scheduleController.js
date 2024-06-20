@@ -18,6 +18,13 @@ const registerSchedule = async (req, res) => {
     const days = [monday, tuesday, wednesday, thursday, friday, saturday, sunday];
 
     try {
+        const comprobate_medic_availability = await MedicAvailability.findOne({
+            where: { medic_id }
+        });
+
+        if (comprobate_medic_availability) {
+            return res.status(404).json({ message: 'The medic already have schedule' });
+        }
         const transaction = await sequelize.transaction();
 
         const medic_availability = await MedicAvailability.create(

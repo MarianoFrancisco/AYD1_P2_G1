@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react'
+import { DoctorSchedules } from './DoctorSchedules'
 
-export function DoctorsPortal({ user_id }) {
+export function DoctorsPortal({ userId }) {
   const [doctors, setDoctors] = useState([])
   const [loading, setLoading] = useState(true)
+  const [selectedComponent, setSelectedComponent] = useState(null)
+  const [selectedDoctorId, setSelectedDoctorId] = useState(null)
 
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/medic/patient?user_id=${user_id}`)
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/medic/patient?user_id=${userId}`)
         if (response.ok) {
           const data = await response.json()
           setDoctors(data.medics)
@@ -21,14 +24,14 @@ export function DoctorsPortal({ user_id }) {
       }
     }
 
-    if (user_id) {
+    if (userId) {
       fetchDoctors()
     }
-  }, [user_id])
+  }, [userId])
 
-  const handleScheduleAppointment = (medicId) => {
-    // Implementa la lógica para programar una cita con el médico específico
-    console.log(`Programando cita con el médico ${medicId}`)
+  const handleViewSchedule = (medicId) => {
+    setSelectedComponent('DoctorSchedule')
+    setSelectedDoctorId(medicId)
   }
 
   if (loading) {
@@ -37,6 +40,10 @@ export function DoctorsPortal({ user_id }) {
         <div className="animate-spin rounded-full h-20 w-20 border-t-2 border-b-2 border-gray-900"></div>
       </div>
     )
+  }
+
+  if (selectedComponent === 'DoctorSchedule') {
+    return <DoctorSchedules userId={userId} doctorId={selectedDoctorId} />
   }
 
   return (
@@ -66,26 +73,28 @@ export function DoctorsPortal({ user_id }) {
                     />
                   </div>
                   <div className="text-center mb-3">
-                    <h2 className="text-lg font-semibold mb-1" style={{ fontWeight: '700' }}>{`${doctor.first_name} ${doctor.last_name}`}</h2>
+                    <h2 className="text-lg font-semibold mb-1" style={{ fontWeight: '700' }}>
+                      {doctor.gender.name === 'Hombre' ? 'Dr.' : 'Dra.'} {`${doctor.first_name} ${doctor.last_name}`}
+                    </h2>
                     <div className="bg-gray-50 rounded-lg p-3 shadow-inner">
                       <p className="text-gray-600 text-sm mb-1"><strong>Especialidad:</strong> {doctor.additionalAttribute.specialty.name}</p>
                       <p className="text-gray-600 text-sm"><strong>Dirección clínica:</strong> {doctor.additionalAttribute.clinicAddress}</p>
                     </div>
                   </div>
-                  <div className="flex justify-center mt-3">
+                  <div className="flex justify-center mt-3 space-x-4">
                     <button
-                      onClick={() => handleScheduleAppointment(doctor.id)}
-                      className="bg-gray-700 text-white rounded-md py-2 px-4 text-sm font-medium hover:bg-gray-600"
+                      onClick={() => handleViewSchedule(doctor.id)}
+                      className="bg-blue-500 text-white rounded-md py-2 px-4 text-sm font-medium hover:bg-blue-600 flex items-center"
                       style={{
                         borderRadius: '0.375rem',
                         padding: '0.5rem 1rem',
-                        fontSize: '0.875rem', // Tamaño ligeramente más pequeño que el original
+                        fontSize: '0.875rem',
                         fontWeight: '500',
                         transition: 'background-color 0.3s ease-in-out, transform 0.3s ease-in-out',
-                        margin: '0.1rem', // Ajuste mínimo al margen
+                        margin: '0.1rem',
                       }}
                     >
-                      Programar cita
+                      <i className="fas fa-calendar-alt mr-2"></i>Horarios de atención
                     </button>
                   </div>
                 </div>
@@ -96,7 +105,7 @@ export function DoctorsPortal({ user_id }) {
       ) : (
         <div className="flex flex-grow items-center justify-center" style={{ height: '90vh' }}>
           <div className="text-center">
-            <p className="text-gray-600 text-lg mb-4">No hay médicos disponibles para mostrar.</p>
+            <p className="text-gray-600 text-lg mb-4">No hay médicos disponibles para mostrar</p>
           </div>
         </div>
       )}
