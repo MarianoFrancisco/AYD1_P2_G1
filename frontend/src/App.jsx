@@ -11,6 +11,7 @@ import {
   Routes,
   Navigate,
 } from 'react-router-dom'
+import HorarioMedico from "./pages/HorarioMedico.jsx";
 
 
 function App() {
@@ -67,6 +68,13 @@ function App() {
             <ProtectedRoute isLoggedIn={isLoggedIn} type={3}>
               <Registration />
             </ProtectedRoute>
+          } />
+      <Route
+          path='/horario-medico'
+          element={
+              <ProtectedRoute isLoggedIn={isLoggedIn} type={4}>
+                  <HorarioMedico />
+              </ProtectedRoute>
           } />
         <Route
           path='/'
