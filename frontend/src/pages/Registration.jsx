@@ -14,14 +14,6 @@ export function Registration() {
             return;
         }
 
-        // En el registro de usuarios, se establece el rol según la selección del usuario
-        formData.append("role_id", userRole);
-        formData.delete("confirm_password");
-
-        if (userRole === "2") { // Si es médico
-            formData.append("specialty_id", specialty);
-            formData.append("clinic_address", clinicAddress);
-        }
 
         let response = await fetch("http://localhost:5000/api/user", {
             method: "POST",
@@ -30,6 +22,7 @@ export function Registration() {
 
         let data = await response.text();
         console.log(data);
+        window.location.href = "/login";
     }
 
     const specialties = [
