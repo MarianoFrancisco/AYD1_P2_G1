@@ -85,7 +85,9 @@ export function PatientHome({ onLogout }) {
           onMouseEnter={handleMediCareHover}
           onMouseLeave={handleMediCareLeave}
         >
-          <div className={`text-xl font-bold mr-8 text-white`}>MediCare</div>
+          <div className="text-xl font-bold mr-8 text-white">
+            <a href="/patient-home" className="text-white">MediCare</a>
+          </div>
           <button
             onClick={() => handleOptionClick('Portal de médicos')}
             className={`transition-colors ${selectedOption === 'Portal de médicos' ? 'text-white' : 'text-gray-400'}`}
@@ -118,7 +120,7 @@ export function PatientHome({ onLogout }) {
         </div>
       </nav>
       <main className="p-0">
-        {selectedOption === 'Portal de médicos' && <DoctorsPortal user_id={user ? user.id : null} />}
+        {selectedOption === 'Portal de médicos' && <DoctorsPortal userId={user ? user.id : null} {...setSelectedOption} />}
         {selectedOption === 'Citas activas' && <p>Citas activas</p>}
       </main>
     </div>

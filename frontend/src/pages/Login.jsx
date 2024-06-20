@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FaSpinner } from 'react-icons/fa'
 import Swal from 'sweetalert2'
 
 export function Login({ onLogin }) {
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    document.title = 'MediCare'
+  })
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -68,7 +72,7 @@ export function Login({ onLogin }) {
 
         <p className="mt-10 text-center text-sm text-gray-500">
           ¿Nuevo en MediCare?
-          <a href="#" className="font-semibold leading-6 text-black hover:text-gray-700 ml-1">Regístrate aquí</a>
+          <a href="./register" className="font-semibold leading-6 text-black hover:text-gray-700 ml-1">Regístrate aquí</a>
         </p>
       </div>
     </div>
