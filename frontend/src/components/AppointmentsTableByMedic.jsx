@@ -5,22 +5,20 @@ const AppointmentsTable = ({userId}) => {
     
     const onAtend = async (id) => {
         console.log(`Atendido ${id}`);
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic/attended/${id}`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic/attended/${id}`, {
             method: 'PATCH',
         });
-        console.log(`${import.meta.env.VITE_API_URL}/api/appointment/medic/attended/${id}`);
-        const data = await response.json();
-        console.log(data);
         //reload page
         window.location.reload();
     };
     
-    // const onCancel = async (id) => {
-    //     console.log(`Cancelado ${id}`);
-    //     await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic/cancelled/${id}`, {
-    //         method: 'PATCH',
-    //     });
-    // };
+    const onCancel = async (id) => {
+        console.log(`Cancelado ${id}`);
+        await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic/cancelled/${id}`, {
+            method: 'PATCH',
+        });
+        window.location.reload();
+    };
 
     useEffect(() => {
         const fetchAppointments = async () => {
