@@ -5,22 +5,27 @@ const AppointmentsTable = ({userId}) => {
     
     const onAtend = async (id) => {
         console.log(`Atendido ${id}`);
-        await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic/pending/${id}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic/attended/${id}`, {
             method: 'PATCH',
         });
+        console.log(`${import.meta.env.VITE_API_URL}/api/appointment/medic/attended/${id}`);
+        const data = await response.json();
+        console.log(data);
+        //reload page
+        window.location.reload();
     };
     
-    const onCancel = async (id) => {
-        console.log(`Cancelado ${id}`);
-        await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic/cancelled/${id}`, {
-            method: 'PATCH',
-        });
-    };
+    // const onCancel = async (id) => {
+    //     console.log(`Cancelado ${id}`);
+    //     await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic/cancelled/${id}`, {
+    //         method: 'PATCH',
+    //     });
+    // };
 
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic/pending?user_id=${userId}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic?user_id=${userId}`);
                 console.log(`${import.meta.env.VITE_API_URL}/api/appointment/medic/pending?user_id=${userId}`);
                 const data = await response.json();
                 setAppointments(data.appointments);
