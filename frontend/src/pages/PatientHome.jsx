@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import Cookies from 'js-cookie'
 import { decodeToken } from 'react-jwt'
 import { DoctorsPortal } from '../components/DoctorsPortal'
+import { ActiveAppointments } from '../components/ActiveAppointments'
 
 export function PatientHome({ onLogout }) {
   const [selectedOption, setSelectedOption] = useState('Portal de médicos')
@@ -121,7 +122,7 @@ export function PatientHome({ onLogout }) {
       </nav>
       <main className="p-0">
         {selectedOption === 'Portal de médicos' && <DoctorsPortal userId={user ? user.id : null} {...setSelectedOption} />}
-        {selectedOption === 'Citas activas' && <p>Citas activas</p>}
+        {selectedOption === 'Citas activas' && <ActiveAppointments userId={user.id} />}
       </main>
     </div>
   )
