@@ -113,3 +113,63 @@ El diagrama está basado en el diagrama de componentes. Proporciona una visión 
 
  - ### Historial de citas paciente:
 ![./Mockups/hisotial_de_citas_paciente.png](./Mockups/hisotial_de_citas_paciente.png)
+
+ - ### modulo  doctor cancelar citas:
+![./Mockups/modulo_doctor_cancelar_citas.png](./Mockups/modulo_doctor_cancelar_citas.png)
+
+ - ### modulo doctor envio correo:
+![./Mockups/modulo_doctor_envio_correo.png](./Mockups/modulo_doctor_envio_correo.png)
+
+ - ### modulo doctor establecer horarios:
+![./Mockups/modulo_doctor_establecer_horarios.png](./Mockups/modulo_doctor_establecer_horarios.png)
+
+ - ### modulo usuario buscar medicos por especialidad:
+![./Mockups/modulo_usuario_buscar_medicos_por_especialidad.png](./Mockups/modulo_usuario_buscar_medicos_por_especialidad.png)
+
+ - ### modulo usuario cancelar citas:
+![./Mockups/modulo_dmodulo_usuario_cancelar_citasctor_establecer_horarios.png](./Mockups/modulo_usuario_cancelar_citas.png)
+
+
+
+## Casos de Uso del sistema
+ - ### actulizar-perfil:
+![./Usecases/actulizar-perfil.png](./Usecases/actulizar-perfil.png)
+
+ - ### buscar-medico:
+![./Usecases/buscar-medico.png](./Usecases/buscar-medico.png)
+
+ - ### control-cita-paciente:
+![./Usecases/control-cita-paciente.png](./Usecases/control-cita-paciente.png)
+
+ - ### gestion-cita-medico:
+![./Usecases/gestion-cita-medico.png](./Usecases/gestion-cita-medico.png)
+
+ - ### inicio-sesion:
+![./Usecases/inicio-sesion.png](./Usecases/inicio-sesion.png)
+
+ - ### programar-cita-paciente:
+![./Usecases/programar-cita-paciente.png](./Usecases/programar-cita-paciente.png)
+
+ - ### registro:
+![./Usecases/registro.png](./Usecases/registro.png)
+
+ - ### uc-actulizar-perfil:
+![./Usecases/uc-actulizar-perfil.png](./Usecases/uc-actulizar-perfil.png)
+
+ - ### uc-buscar-medico:
+![./Usecases/uc-buscar-medico.png](./Usecases/uc-buscar-medico.png)
+
+ - ### uc-control-cita-paciente:
+![./Usecases/uc-control-cita-paciente.png](./Usecases/uc-control-cita-paciente.png)
+
+ - ### uc-gestion-cita-medico:
+![./Usecases/uc-gestion-cita-medico.png](./Usecases/uc-gestion-cita-medico.png)
+
+ - ### uc-inicio-sesion:
+![./Usecases/uc-inicio-sesion.png](./Usecases/uc-inicio-sesion.png)
+
+ - ### uc-programar-cita-paciente:
+![./Usecases/uc-programar-cita-paciente.png](./Usecases/uc-programar-cita-paciente.png)
+
+ - ### uc-registro:
+![./Usecases/uc-registro.png](./Usecases/uc-registro.png)
