@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import Swal from 'sweetalert2'
 
 export function ActiveAppointments({ userId }) {
   const [appointments, setAppointments] = useState([])
@@ -21,10 +22,36 @@ export function ActiveAppointments({ userId }) {
         setLoading(false)
         setError(true)
       }
-    }
+    };
 
     fetchAppointments()
   }, [userId])
+
+  const cancelAppointment = async (appointmentId) => {
+    try {
+      console.log(appointmentId)
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/patient/cancelled/${appointmentId}`, {
+        method: 'PATCH',
+      })
+      if (!response.ok) {
+        throw new Error('Failed to cancel appointment')
+      }
+
+      setAppointments(appointments.filter(appointment => appointment.id !== appointmentId))
+      Swal.fire({
+        icon: 'success',
+        title: 'Cita cancelada',
+        text: 'La cita ha sido cancelada exitosamente.',
+      })
+    } catch (error) {
+      console.error('Error cancelling appointment:', error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Hubo un problema al cancelar la cita. Por favor, inténtelo nuevamente.',
+      })
+    }
+  }
 
   if (loading) {
     return (
@@ -39,7 +66,7 @@ export function ActiveAppointments({ userId }) {
       <div className="flex justify-center items-center h-full" style={{ height: '90vh' }}>
         <p className="text-xl text-gray-800">No hay citas activas disponibles</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -53,6 +80,7 @@ export function ActiveAppointments({ userId }) {
               <th className="py-3 px-4 text-left">Médico</th>
               <th className="py-3 px-4 text-left">Clínica</th>
               <th className="py-3 px-4 text-left">Motivo</th>
+              <th className="py-3 px-4 text-left">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -66,6 +94,14 @@ export function ActiveAppointments({ userId }) {
                 <td className="py-4 px-4">{`${appointment.medic?.first_name} ${appointment.medic?.last_name}`}</td>
                 <td className="py-4 px-4">{appointment.medic?.additionalAttribute.clinicAddress}</td>
                 <td className="py-4 px-4">{appointment.reason}</td>
+                <td className="py-4 px-4">
+                  <button
+                    onClick={() => cancelAppointment(appointment.id)}
+                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
+                  >
+                    Cancelar
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
