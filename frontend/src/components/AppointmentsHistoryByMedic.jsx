@@ -1,30 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
-const AppointmentsTable = ({userId}) => {
+const AppointmentsHistoryTable = ({userId}) => {
     const [appointments, setAppointments] = useState([]);
     
-    const onAtend = async (id) => {
-        console.log(`Atendido ${id}`);
-        await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic/attended/${id}`, {
-            method: 'PATCH',
-        });
-        //reload page http://localhost:5000/api/appointment/medic/pending?user_id=3
-        window.location.reload();
-    };
-    
-    const onCancel = async (id) => {
-        console.log(`Cancelado ${id}`);
-        await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic/cancelled/${id}`, {
-            method: 'PATCH',
-        });
-        window.location.reload();
-    };
+
 
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic/pending?user_id=${userId}`);
-                console.log(`${import.meta.env.VITE_API_URL}/api/appointment/medic/pending?user_id=${userId}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic?user_id=${userId}`);
+                console.log(`${import.meta.env.VITE_API_URL}/api/appointment/medic?user_id=${userId}`);
                 const data = await response.json();
                 setAppointments(data.appointments);
                 console.log(data.appointments);
@@ -47,8 +32,6 @@ const AppointmentsTable = ({userId}) => {
                         <th className="w-3/12 py-2">Medic</th>
                         <th className="w-1/12 py-2">Time Slot</th>
                         <th className="w-1/12 py-2">Status</th>
-                        <th className="w-1/12 py-2">Atender</th>
-                        <th className="w-1/12 py-2">Cancelar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,8 +60,6 @@ const AppointmentsTable = ({userId}) => {
                             </td>
                             <td className="py-2 text-center">{appointment.available_time_slot.start_time} - {appointment.available_time_slot.end_time}</td>
                             <td className="py-2 text-center">{appointment.appointment_status.name}</td>
-                            <td className="py-2 text-center"><button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => onAtend(appointment.id)}>Atendido</button></td>
-                            <td className="py-2 text-center"><button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => onCancel(appointment.id)}>Cancelado</button></td>
                         </tr>
                     ))}
                 </tbody>
@@ -87,4 +68,4 @@ const AppointmentsTable = ({userId}) => {
     );
 };
 
-export default AppointmentsTable;
+export default AppointmentsHistoryTable;
