@@ -3,6 +3,7 @@ import { decodeToken } from 'react-jwt';
 import Cookies from 'js-cookie';
 import AppointmentsTable from '../components/AppointmentsTableByMedic';
 import AppointmentsHistoryTable from '../components/AppointmentsHistoryByMedic';
+import EditDoctorProfile from '../components/EditDoctorProfile';
 
 export function DoctorHome({ onLogout }) {
   useEffect(() => {
@@ -51,6 +52,8 @@ export function DoctorHome({ onLogout }) {
         return <div>Horarios Content</div>; // Reemplaza con tu componente real
       case 'nuevo-horario':
         return <div>Nuevo Horario Content</div>; // Reemplaza con tu componente real
+      case 'edit-profile':
+        return <EditDoctorProfile userData={userData} />;
       default:
         return <AppointmentsTable userId={userData.id} />;
     }
@@ -86,6 +89,9 @@ export function DoctorHome({ onLogout }) {
                   </button>
                   <button onClick={() => setActiveTab('nuevo-horario')} className={`rounded-md px-3 py-2 text-sm font-medium ${activeTab === 'nuevo-horario' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}>
                     Nuevo Horario
+                  </button>
+                  <button onClick={() => setActiveTab('edit-profile')} className={`rounded-md px-3 py-2 text-sm font-medium ${activeTab === 'edit-profile' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}>
+                    Editar Perfil
                   </button>
                 </div>
               </div>
@@ -138,6 +144,9 @@ export function DoctorHome({ onLogout }) {
             </button>
             <button onClick={() => setActiveTab('nuevo-horario')} className={`block rounded-md px-3 py-2 text-base font-medium ${activeTab === 'nuevo-horario' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}>
               Nuevo Horario
+            </button>
+            <button onClick={() => setActiveTab('edit-profile')} className={`block rounded-md px-3 py-2 text-base font-medium ${activeTab === 'edit-profile' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}>
+              Editar Perfil
             </button>
           </div>
           <div className="border-t border-gray-700 pb-3 pt-4">
