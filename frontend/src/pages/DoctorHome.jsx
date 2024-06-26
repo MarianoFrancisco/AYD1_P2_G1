@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import AppointmentsTable from '../components/AppointmentsTableByMedic';
 import AppointmentsHistoryTable from '../components/AppointmentsHistoryByMedic';
 import EditDoctorProfile from '../components/EditDoctorProfile';
+import HorarioMedico from "./HorarioMedico.jsx";
 
 export function DoctorHome({ onLogout }) {
   useEffect(() => {
@@ -51,7 +52,7 @@ export function DoctorHome({ onLogout }) {
       case 'horarios':
         return <div>Horarios Content</div>; // Reemplaza con tu componente real
       case 'nuevo-horario':
-        return <div>Nuevo Horario Content</div>; // Reemplaza con tu componente real
+        return <HorarioMedico/>; // Reemplaza con tu componente real
       case 'edit-profile':
         return <EditDoctorProfile userData={userData} />;
       default:
