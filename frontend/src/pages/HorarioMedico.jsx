@@ -154,50 +154,64 @@ const HorarioMedico = () => {
   };
 
   return (
-      <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px', border: '1px solid #ccc', borderRadius: '8px' }}>
-        <h1>Establecer horario de atención</h1>
-        <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: '20px' }}>
-            <h3>Días de la semana:</h3>
-            {diasSemana.map((dia) => (
-                <div key={dia}>
-                  <label>
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
+        <div className="sm:w-full sm:max-w-md bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <img className="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=black" alt="Your Company" />
+          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Establecer horario de atención</h2>
+          <form onSubmit={handleSubmit}>
+            <br/>
+            <h3>Seleccione días de la semana:</h3>
+            <div style={{ marginBottom: '20px', display: 'ruby' }}>
+
+              {diasSemana.map((dia) => (
+                  <div key={dia} className="relative flex items-start py-4 ml-2">
                     <input
+                        className="hidden peer" name="preferred_activities[]"
+                        id={dia}
                         type="checkbox"
                         checked={diasSeleccionados[dia] === 1}
                         onChange={() => handleDiaChange(dia)}
                     />
-                    {dia}
-                  </label>
-                </div>
-            ))}
-          </div>
-          <div style={{ marginBottom: '20px' }}>
-            <label>
-              Hora de inicio:
-              <select value={horaInicio} onChange={(e) => setHoraInicio(Number(e.target.value))}>
-                {horas.map((hora) => (
-                    <option key={hora} value={hora}>
-                      {hora}:00
-                    </option>
-                ))}
-              </select>
-            </label>
-            <label style={{ marginLeft: '20px' }}>
-              Hora de fin:
-              <select value={horaFin} onChange={(e) => setHoraFin(Number(e.target.value))}>
-                {horas.map((hora) => (
-                    <option key={hora} value={hora}>
-                      {hora}:00
-                    </option>
-                ))}
-              </select>
-            </label>
-          </div>
-          <button type="submit">Guardar Horario</button>
-        </form>
+                    <label htmlFor={dia} className="inline-flex items-center justify-between w-auto p-2 font-medium tracking-tight border rounded-lg cursor-pointer bg-brand-light text-brand-black border-gray-800 peer-checked:border-gray-800 peer-checked:bg-gray-800 peer-checked:text-white peer-checked:font-semibold  peer-checked:decoration-brand-dark decoration-2">
+                      {dia}
+                    </label>
+                  </div>
+              ))}
+            </div>
+            <div style={{ marginBottom: '20px' }}>
+              <label>
+                Hora de inicio:
+                <select value={horaInicio} onChange={(e) => setHoraInicio(Number(e.target.value))}
+                        className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200"
+                >
+                  {horas.map((hora) => (
+                      <option key={hora} value={hora}>
+                        {hora}:00
+                      </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Hora de fin:
+                <select value={horaFin} onChange={(e) => setHoraFin(Number(e.target.value))}
+                        className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none z-1 focus:outline-none focus:ring-0 focus:border-black border-gray-200"
+                >
+                  {horas.map((hora) => (
+                      <option key={hora} value={hora}>
+                        {hora}:00
+                      </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            <button type="submit"
+                    className="flex w-full justify-center rounded-md bg-gray-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-800"
+            >Guardar Horario</button>
+          </form>
+        </div>
       </div>
   );
 };
 
 export default HorarioMedico;
+
