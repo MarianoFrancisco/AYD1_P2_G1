@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
-import Swal from 'sweetalert2'
 
-export function ActiveAppointments({ userId }) {
+export function AppointmentsHistoryByPatient({ userId }) {
   const [appointments, setAppointments] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -9,12 +8,27 @@ export function ActiveAppointments({ userId }) {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/patient/pending?user_id=${userId}`)
-        if (!response.ok) {
-          throw new Error('Failed to fetch data')
+        const pendingResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/patient/pending?user_id=${userId}`)
+        if (!pendingResponse.ok) {
+          throw new Error('Failed to fetch pending appointments')
         }
-        const data = await response.json()
-        setAppointments(data.appointments)
+        const pendingData = await pendingResponse.json()
+        const pendingAppointments = pendingData.appointments.map(appointment => ({
+          ...appointment,
+          appointment_status: { id: 1, name: 'Pendiente' }
+        }))
+
+        const historyResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/patient?user_id=${userId}`)
+        if (!historyResponse.ok) {
+          throw new Error('Failed to fetch history appointments')
+        }
+        const historyData = await historyResponse.json()
+        const historyAppointments = historyData.appointments.map(appointment => ({
+          ...appointment,
+          appointment_status: appointment.appointment_status
+        }))
+
+        setAppointments([...pendingAppointments, ...historyAppointments])
         setLoading(false)
         setError(false)
       } catch (error) {
@@ -27,32 +41,6 @@ export function ActiveAppointments({ userId }) {
     fetchAppointments()
   }, [userId])
 
-  const cancelAppointment = async (appointmentId) => {
-    try {
-      console.log(appointmentId)
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/patient/cancelled/${appointmentId}`, {
-        method: 'PATCH'
-      })
-      if (!response.ok) {
-        throw new Error('Failed to cancel appointment')
-      }
-
-      setAppointments(appointments.filter(appointment => appointment.id !== appointmentId))
-      Swal.fire({
-        icon: 'success',
-        title: 'Cita cancelada',
-        text: 'La cita ha sido cancelada exitosamente.'
-      })
-    } catch (error) {
-      console.error('Error cancelling appointment:', error)
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Hubo un problema al cancelar la cita. Por favor, inténtelo nuevamente.'
-      })
-    }
-  }
-
   if (loading) {
     return (
       <div className="flex justify-center items-center h-full" style={{ height: '85vh' }}>
@@ -64,7 +52,7 @@ export function ActiveAppointments({ userId }) {
   if (error || appointments.length === 0) {
     return (
       <div className="flex justify-center items-center h-full" style={{ height: '85vh' }}>
-        <p className="text-xl text-gray-800">No hay citas activas disponibles</p>
+        <p className="text-xl text-gray-800">No hay citas disponibles</p>
       </div>
     )
   }
@@ -78,9 +66,8 @@ export function ActiveAppointments({ userId }) {
               <th className="py-3 px-4 text-left">Fecha</th>
               <th className="py-3 px-4 text-left">Hora</th>
               <th className="py-3 px-4 text-left">Médico</th>
-              <th className="py-3 px-4 text-left">Clínica</th>
               <th className="py-3 px-4 text-left">Motivo</th>
-              <th className="py-3 px-4 text-left">Acciones</th>
+              <th className="py-3 px-4 text-left">Estado</th>
             </tr>
           </thead>
           <tbody>
@@ -92,17 +79,8 @@ export function ActiveAppointments({ userId }) {
                 <td className="py-3 px-4 whitespace-nowrap">{appointment.date}</td>
                 <td className="py-3 px-4">{`${appointment.available_time_slot.start_time} - ${appointment.available_time_slot.end_time}`}</td>
                 <td className="py-3 px-4">{`${appointment.medic?.first_name} ${appointment.medic?.last_name}`}</td>
-                <td className="py-3 px-4">{appointment.medic?.additionalAttribute.clinicAddress}</td>
                 <td className="py-3 px-4">{appointment.reason}</td>
-                <td className="py-3 px-4">
-                  <button
-                    onClick={() => cancelAppointment(appointment.id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700 transition-colors"
-                    style={{fontWeight: 'bold'}}
-                  >
-                    Cancelar
-                  </button>
-                </td>
+                <td className="py-3 px-4">{appointment.appointment_status.name}</td>
               </tr>
             ))}
           </tbody>
