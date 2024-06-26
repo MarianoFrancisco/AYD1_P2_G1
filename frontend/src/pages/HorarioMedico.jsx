@@ -43,7 +43,7 @@ const HorarioMedico = () => {
           const data = await response.json();
           console.log('Horarios cargados:', data);
 
-          if (data.schedule) {
+          if (data.schedule && data.schedule.id) {
             const { start_time, end_time, availability_weekdays } = data.schedule;
 
             setHoraInicio(parseInt(start_time.split(':')[0], 10));
@@ -155,7 +155,7 @@ const HorarioMedico = () => {
 
   return (
       <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px', border: '1px solid #ccc', borderRadius: '8px' }}>
-        <h1>Modificar Horarios de Atención</h1>
+        <h1>Establecer horario de atención</h1>
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: '20px' }}>
             <h3>Días de la semana:</h3>
@@ -194,7 +194,7 @@ const HorarioMedico = () => {
               </select>
             </label>
           </div>
-          <button type="submit">Guardar Horarios</button>
+          <button type="submit">Guardar Horario</button>
         </form>
       </div>
   );
