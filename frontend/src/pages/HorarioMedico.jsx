@@ -158,9 +158,9 @@ const HorarioMedico = () => {
         <div className="sm:w-full sm:max-w-md bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <img className="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=black" alt="Your Company" />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Establecer horario de atención</h2>
-            <form onSubmit={handleSubmit}>
-              <br/>
-              <h3>Seleccione días de la semana:</h3>
+          <form onSubmit={handleSubmit}>
+            <br/>
+            <h3>Seleccione días de la semana:</h3>
             <div style={{ marginBottom: '20px', display: 'ruby' }}>
 
               {diasSemana.map((dia) => (
@@ -207,10 +207,11 @@ const HorarioMedico = () => {
             <button type="submit"
                     className="flex w-full justify-center rounded-md bg-gray-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-800"
             >Guardar Horario</button>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
   );
 };
 
 export default HorarioMedico;
+
