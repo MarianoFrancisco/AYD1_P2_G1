@@ -6,6 +6,8 @@ export function DoctorsPortal({ userId }) {
   const [loading, setLoading] = useState(true)
   const [selectedComponent, setSelectedComponent] = useState(null)
   const [selectedDoctorId, setSelectedDoctorId] = useState(null)
+  const [specialties, setSpecialties] = useState([])
+  const [selectedSpecialty, setSelectedSpecialty] = useState('')
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -14,6 +16,8 @@ export function DoctorsPortal({ userId }) {
         if (response.ok) {
           const data = await response.json()
           setDoctors(data.medics)
+          const uniqueSpecialties = [...new Set(data.medics.map(doctor => doctor.additionalAttribute.specialty.name))]
+          setSpecialties(uniqueSpecialties)
         } else {
           console.error('Error al obtener datos de médicos:', response.statusText)
         }
@@ -34,6 +38,45 @@ export function DoctorsPortal({ userId }) {
     setSelectedDoctorId(medicId)
   }
 
+  const handleSpecialtyChange = async (e) => {
+    const specialty = e.target.value
+    setSelectedSpecialty(specialty)
+    setLoading(true)
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/medic/patient/search?user_id=${userId}&specialty=${specialty}`)
+      if (response.ok) {
+        const data = await response.json()
+        setDoctors(data.medics)
+      } else {
+        console.error('Error al obtener datos de médicos por especialidad:', response.statusText)
+      }
+    } catch (error) {
+      console.error('Error en la solicitud de médicos por especialidad:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleCancelFilter = async () => {
+    setSelectedSpecialty('')
+    setLoading(true)
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/medic/patient?user_id=${userId}`)
+      if (response.ok) {
+        const data = await response.json()
+        setDoctors(data.medics)
+        const uniqueSpecialties = [...new Set(data.medics.map(doctor => doctor.additionalAttribute.specialty.name))]
+        setSpecialties(uniqueSpecialties)
+      } else {
+        console.error('Error al obtener datos de médicos:', response.statusText)
+      }
+    } catch (error) {
+      console.error('Error en la solicitud de médicos:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen" style={{ height: '90vh' }}>
@@ -48,8 +91,38 @@ export function DoctorsPortal({ userId }) {
 
   return (
     <div className="h-screen flex flex-col items-center" style={{ height: '90vh' }}>
-      {doctors.length > 0 ? (
-        <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-4 flex justify-center">
+          <select
+            className="bg-white border border-gray-300 rounded-md py-2 px-3 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            value={selectedSpecialty}
+            onChange={handleSpecialtyChange}
+            style={{ width: '12rem' }}
+          >
+            {!selectedSpecialty && <option value="">Filtrar por especialidad</option>}
+            {specialties.map(specialty => (
+              <option key={specialty} value={specialty}>{specialty}</option>
+            ))}
+          </select>
+          {selectedSpecialty && (
+            <button
+              onClick={handleCancelFilter}
+              className="ml-4 bg-red-500 text-white rounded-md py-2 px-4 text-sm font-medium hover:bg-red-600"
+              style={{
+                borderRadius: '0.375rem',
+                padding: '0.5rem 1rem',
+                fontSize: '0.875rem',
+                fontWeight: '500',
+                transition: 'background-color 0.3s ease-in-out, transform 0.3s ease-in-out',
+                margin: '0.1rem',
+                marginLeft: '5px'
+              }}
+            >
+              Cancelar
+            </button>
+          )}
+        </div>
+        {doctors.length > 0 ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
             {doctors.map((doctor) => (
               <div
@@ -101,14 +174,14 @@ export function DoctorsPortal({ userId }) {
               </div>
             ))}
           </div>
-        </div>
-      ) : (
-        <div className="flex flex-grow items-center justify-center" style={{ height: '90vh' }}>
-          <div className="text-center">
-            <p className="text-gray-600 text-lg mb-4">No hay médicos disponibles para mostrar</p>
+        ) : (
+          <div className="flex flex-grow items-center justify-center" style={{ height: '90vh' }}>
+            <div className="text-center">
+              <p className="text-gray-600 text-lg mb-4">No hay médicos disponibles para mostrar</p>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }
