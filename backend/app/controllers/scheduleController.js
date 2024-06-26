@@ -24,7 +24,7 @@ const registerSchedule = async (req, res) => {
 
         if (comprobate_medic_availability) {
             //return res.status(401).json({ message: 'The medic already have schedule' });
-            res.status(500).json({ error: 'The medic already have schedule' });
+            res.status(200).json({ message: 'The medic already have schedule', create: false });
             return;
         }
         const transaction = await sequelize.transaction();
@@ -54,7 +54,7 @@ const registerSchedule = async (req, res) => {
         await transaction.commit();
 
         //+res.status(201).json({ message: 'Schedule registered successfully' });
-        res.status(200).json({ message: 'Schedule registered successfully' });
+        res.status(200).json({ message: 'Schedule registered successfully', create: true });
     } catch (error) {
         console.log('error al crear horario:', error);
         if (transaction) await transaction.rollback();
