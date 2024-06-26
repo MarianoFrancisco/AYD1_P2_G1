@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { decodeToken } from 'react-jwt';
 import Cookies from 'js-cookie';
+import MedicSchedule from '../components/MedicSchedule';
 import AppointmentsTable from '../components/AppointmentsTableByMedic';
 import AppointmentsHistoryTable from '../components/AppointmentsHistoryByMedic';
 import EditDoctorProfile from '../components/EditDoctorProfile';
@@ -50,7 +51,7 @@ export function DoctorHome({ onLogout }) {
       case 'history':
         return <AppointmentsHistoryTable userId={userData.id} />;
       case 'horarios':
-        return <div>Horarios Content</div>; // Reemplaza con tu componente real
+        return <MedicSchedule userId={userData.id}/>; // Reemplaza con tu componente real
       case 'nuevo-horario':
         return <HorarioMedico/>; // Reemplaza con tu componente real
       case 'edit-profile':
