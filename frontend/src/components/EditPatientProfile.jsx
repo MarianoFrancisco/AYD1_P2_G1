@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Swal from 'sweetalert2'
 
-export function PatientProfileEditor({ user, setUser }) {
+export function EditPatientProfile({ user, setUser }) {
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
