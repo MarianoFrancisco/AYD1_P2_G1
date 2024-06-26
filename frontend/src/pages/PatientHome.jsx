@@ -4,6 +4,7 @@ import { decodeToken } from 'react-jwt'
 import { DoctorsPortal } from '../components/DoctorsPortal'
 import { ActiveAppointments } from '../components/ActiveAppointments'
 import { EditPatientProfile } from '../components/EditPatientProfile'
+import { AppointmentsHistoryByPatient } from '../components/AppointmentsHistoryByPatient'
 
 export function PatientHome({ onLogout }) {
   const [selectedOption, setSelectedOption] = useState('Portal de médicos')
@@ -102,6 +103,12 @@ export function PatientHome({ onLogout }) {
           >
             Citas activas
           </button>
+          <button
+            onClick={() => handleOptionClick('Historial de citas')}
+            className={`transition-colors ${selectedOption === 'Historial de citas' ? 'text-white' : 'text-gray-400'}`}
+          >
+            Historial de citas
+          </button>
         </div>
         <div className="relative" ref={menuRef} onMouseEnter={handleMenuHover} onMouseLeave={handleMenuLeave}>
           <button onClick={toggleMenu}>
@@ -112,7 +119,7 @@ export function PatientHome({ onLogout }) {
           {menuOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-md shadow-lg" style={{ zIndex: 9999 }}>
               <button
-                onClick={() => handleOptionClick('ProfileEditor')}
+                onClick={() => handleOptionClick('EditPatientProfile')}
                 className="block px-4 py-2 hover:bg-gray-700 w-full text-left text-white"
               >
                 Editar perfil
@@ -130,7 +137,8 @@ export function PatientHome({ onLogout }) {
       <main className="p-0">
         {selectedOption === 'Portal de médicos' && <DoctorsPortal userId={user ? user.id : null} {...setSelectedOption} />}
         {selectedOption === 'Citas activas' && <ActiveAppointments userId={user.id} />}
-        {selectedOption === 'ProfileEditor' && <EditPatientProfile user={user} setUser={setUser} />}
+        {selectedOption === 'Historial de citas' && <AppointmentsHistoryByPatient userId={user.id} />}
+        {selectedOption === 'EditPatientProfile' && <EditPatientProfile user={user} setUser={setUser} />}
       </main>
     </div>
   )
