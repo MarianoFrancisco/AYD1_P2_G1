@@ -52,7 +52,7 @@ export function DoctorHome({ onLogout }) {
       case 'horarios':
         return <div>Horarios Content</div>; // Reemplaza con tu componente real
       case 'nuevo-horario':
-        return <HorarioMedico></HorarioMedico>; // Reemplaza con tu componente real
+        return <HorarioMedico/>; // Reemplaza con tu componente real
       case 'edit-profile':
         return <EditDoctorProfile userData={userData} />;
       default:
