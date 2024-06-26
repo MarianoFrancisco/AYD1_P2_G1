@@ -10,7 +10,7 @@ const MedicAvailabilityWeekday = require('../models/MedicAvailabilityWeekday');
 const MedicAvailability = require('../models/MedicAvailability');
 const Specialty = require('../models/Specialty');
 const Weekday = require('../models/Weekday');
-const { createUserResponse } = require('./userHelper');
+const { createUserResponse, getUser } = require('./userHelper');
 
 const getScheduleAndDays = async (medic_id) => {
     try {
@@ -54,9 +54,12 @@ const getScheduleAndDays = async (medic_id) => {
         });
 
         if (!medic_availability) {
-            return { message: 'No schedule availability found for this medic' };
+            const user = await getUser({ id: medic_id });
+            return {
+                message: 'No schedule availability found for this medic',
+                user
+            };
         }
-
         const medicAvailabilityResponse = {
             id: medic_availability.id,
             medic: createUserResponse(medic_availability.medic),
