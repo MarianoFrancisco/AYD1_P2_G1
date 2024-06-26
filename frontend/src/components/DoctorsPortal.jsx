@@ -57,26 +57,24 @@ export function DoctorsPortal({ userId }) {
     }
   }
 
-  const handleCancelFilter = () => {
+  const handleCancelFilter = async () => {
     setSelectedSpecialty('')
     setLoading(true)
-    const fetchDoctors = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/medic/patient?user_id=${userId}`)
-        if (response.ok) {
-          const data = await response.json()
-          setDoctors(data.medics)
-        } else {
-          console.error('Error al obtener datos de médicos:', response.statusText)
-        }
-      } catch (error) {
-        console.error('Error en la solicitud de médicos:', error)
-      } finally {
-        setLoading(false)
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/medic/patient?user_id=${userId}`)
+      if (response.ok) {
+        const data = await response.json()
+        setDoctors(data.medics)
+        const uniqueSpecialties = [...new Set(data.medics.map(doctor => doctor.additionalAttribute.specialty.name))]
+        setSpecialties(uniqueSpecialties)
+      } else {
+        console.error('Error al obtener datos de médicos:', response.statusText)
       }
+    } catch (error) {
+      console.error('Error en la solicitud de médicos:', error)
+    } finally {
+      setLoading(false)
     }
-
-    fetchDoctors()
   }
 
   if (loading) {
@@ -99,8 +97,9 @@ export function DoctorsPortal({ userId }) {
             className="bg-white border border-gray-300 rounded-md py-2 px-3 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             value={selectedSpecialty}
             onChange={handleSpecialtyChange}
+            style={{ width: '12rem' }}
           >
-            <option value="">Seleccionar especialidad</option>
+            {!selectedSpecialty && <option value="">Filtrar por especialidad</option>}
             {specialties.map(specialty => (
               <option key={specialty} value={specialty}>{specialty}</option>
             ))}
