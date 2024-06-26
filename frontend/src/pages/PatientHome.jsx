@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import { decodeToken } from 'react-jwt'
 import { DoctorsPortal } from '../components/DoctorsPortal'
 import { ActiveAppointments } from '../components/ActiveAppointments'
+import { PatientProfileEditor } from '../components/PatientProfileEditor'
 
 export function PatientHome({ onLogout }) {
   const [selectedOption, setSelectedOption] = useState('Portal de médicos')
@@ -111,6 +112,12 @@ export function PatientHome({ onLogout }) {
           {menuOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-md shadow-lg" style={{ zIndex: 9999 }}>
               <button
+                onClick={() => handleOptionClick('ProfileEditor')}
+                className="block px-4 py-2 hover:bg-gray-700 w-full text-left text-white"
+              >
+                Editar perfil
+              </button>
+              <button
                 onClick={() => handleOptionClick('Cerrar sesión')}
                 className="block px-4 py-2 hover:bg-gray-700 w-full text-left text-white"
               >
@@ -123,6 +130,7 @@ export function PatientHome({ onLogout }) {
       <main className="p-0">
         {selectedOption === 'Portal de médicos' && <DoctorsPortal userId={user ? user.id : null} {...setSelectedOption} />}
         {selectedOption === 'Citas activas' && <ActiveAppointments userId={user.id} />}
+        {selectedOption === 'ProfileEditor' && <PatientProfileEditor user={user} setUser={setUser} />}
       </main>
     </div>
   )
