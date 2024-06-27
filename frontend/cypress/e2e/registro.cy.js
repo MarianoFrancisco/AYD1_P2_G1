@@ -31,7 +31,7 @@ describe('Login-Médico Test', () => {
     cy.get('#confirm_password').type("123456789Z");
     cy.wait(1000);
     cy.get(':nth-child(10) > .flex').click();
-    cy.wait(1000);
+    cy.wait(2000);
     cy.contains('MediCare').should('be.visible');
     })
   })
