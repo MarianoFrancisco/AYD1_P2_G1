@@ -38,6 +38,7 @@ const sendCancellationEmail = async (patientEmail, doctorName, appointmentDate, 
             text: 'Se ha enviado un correo al paciente sobre la cancelación.',
             confirmButtonText: 'OK',
         });
+        location.reload();
     } catch (error) {
         console.error('Failed to send email:', error);
         Swal.fire({
