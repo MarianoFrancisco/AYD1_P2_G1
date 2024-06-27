@@ -1,4 +1,4 @@
-describe('Login-Médico Test', () => {
+describe('Programar-Horario-Medico Test', () => {
     it('Deberia iniciar sesión, mostrar vista gestión de Citas, atender una cita y regresar a Login.', () => {
       cy.visit('http://localhost:5173/login')
   
@@ -24,12 +24,12 @@ describe('Login-Médico Test', () => {
       cy.wait(1500);
       cy.get(':nth-child(1) > .inline-flex').click();
       cy.wait(1500);
-      cy.get('[style="margin-bottom: 20px; display: ruby;"] > :nth-child(3) > .inline-flex').click();
+      cy.get(':nth-child(4) > .inline-flex').click();
       cy.wait(1500);
       cy.get(':nth-child(6) > .inline-flex').click();
       cy.wait(1500);
-      //vuelve activar a Miércoles
-      cy.get('[style="margin-bottom: 20px; display: ruby;"] > :nth-child(3) > .inline-flex').click();
+      //vuelve activar a Jueves
+      cy.get(':nth-child(4) > .inline-flex').click();
       cy.wait(1500);
       cy.get(':nth-child(1) > .pt-3').cle //hora inicio
       cy.get(':nth-child(1) > .pt-3').select("8");

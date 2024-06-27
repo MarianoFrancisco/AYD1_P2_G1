@@ -1,4 +1,4 @@
-describe('Login-Médico Test', () => {
+describe('Registro-Paciente Test', () => {
   it('Deberia iniciar sesión de forma correcta, mostrar vista gestión de Citas, atender una cita y regresar a Login.', () => {
     cy.visit('http://localhost:5173/register')
 

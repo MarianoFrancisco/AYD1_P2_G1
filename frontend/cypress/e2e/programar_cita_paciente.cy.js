@@ -1,4 +1,4 @@
-describe('Login-Paciente Test', () => {
+describe('Programar-Cita-Paciente Test', () => {
     it('Deberia iniciar sesión, Seleccionar un doctor, agendar cita y regresar a Login.', () => {
       cy.visit('http://localhost:5173/login')
   
