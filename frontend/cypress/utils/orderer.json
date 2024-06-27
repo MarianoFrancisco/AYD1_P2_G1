@@ -1,0 +1,8 @@
+[
+    "cypress/e2e/login_incorrecto.cy.js",
+    "cypress/e2e/programar_horario_doctor.cy.js",
+    "cypress/e2e/registro.cy.js",
+    "cypress/e2e/login_paciente.cy.js",
+    "cypress/e2e/programar_cita_paciente.cy.js",
+    "cypress/e2e/login_doctor.cy.js"
+]
