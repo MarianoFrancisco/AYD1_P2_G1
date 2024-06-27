@@ -18,15 +18,15 @@ describe('Registro-Paciente Test', () => {
     cy.get('#role_id').should('have.value', "1");
     cy.wait(1000);
     // Selecciona el campo de archivo y sube una imagen
-    cy.get('#photo').selectFile('C:\Users\Mariano\Downloads\estrella.jpg'); // Reemplaza con el path de imagen de Mariano
-    //cy.get('#photo').selectFile('C:/Users/cecil/OneDrive/Desktop/ayd_pictures/woman.jpg'); // Reemplaza con el path de imagen de Mariano
+    //cy.get('#photo').selectFile('C:\Users\Mariano\Downloads\estrella.jpg'); // Reemplaza con el path de imagen de Mariano
+    cy.get('#photo').selectFile('C:/Users/cecil/OneDrive/Desktop/ayd_pictures/woman.jpg'); // Reemplaza con el path de imagen de Mariano
     // Verifica que el archivo se haya seleccionado correctamente
     cy.wait(500);
     cy.get('#photo').should(($input) => {
       const files = $input[0].files;
       expect(files).to.have.length(1);
-      expect(files[0].name).to.equal('estrella.jpg');}); // Reemplaza con el nombre de imagen de Mariano
-      //expect(files[0].name).to.equal('woman.jpg');}); // Reemplaza con el nombre de imagen de Mariano
+      //expect(files[0].name).to.equal('estrella.jpg');}); // Reemplaza con el nombre de imagen de Mariano
+      expect(files[0].name).to.equal('woman.jpg');}); // Reemplaza con el nombre de imagen de Mariano
     cy.wait(1000);
     cy.get('#password').type("123456789Z");
     cy.wait(1000);
