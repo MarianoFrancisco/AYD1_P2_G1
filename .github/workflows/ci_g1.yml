@@ -99,7 +99,12 @@ jobs:
         npm run dev &
         sleep 10
     
-    #- name: Realizando Pruebas E2E
-    #  run: |
-    #    cd frontend
-    #    npx cypress run
+    - name: Realizando Pruebas E2E
+      run: |
+        cd frontend
+        npm run cypress:run:login_incorrecto
+        npm run cypress:run:programar_horario_doctor
+        npm run cypress:run:registro
+        npm run cypress:run:login_paciente
+        npm run cypress:run:programar_cita_paciente
+        npm run cypress:run:login_doctor
