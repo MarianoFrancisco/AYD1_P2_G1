@@ -5,6 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "cypress:cli": "node cypress/utils/run_end_to_end_orderer.js",
+    "cypress:gui": "node cypress/utils/gui.js",
+    "cypress:run:login_incorrecto": "npx cypress run --spec 'cypress/e2e/login_incorrecto.cy.js'",
+    "cypress:run:programar_horario_doctor": "npx cypress run --spec 'cypress/e2e/programar_horario_doctor.cy.js'",
+    "cypress:run:registro": "npx cypress run --spec 'cypress/e2e/registro.cy.js'",
+    "cypress:run:login_paciente": "npx cypress run --spec 'cypress/e2e/login_paciente.cy.js'",
+    "cypress:run:programar_cita_paciente": "npx cypress run --spec 'cypress/e2e/programar_cita_paciente.cy.js'",
+    "cypress:run:login_doctor": "npx cypress run --spec 'cypress/e2e/login_doctor.cy.js'",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
