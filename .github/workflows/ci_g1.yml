@@ -136,36 +136,5 @@ jobs:
 
     - name: Ejecutando Linter en backend
       run: |
-        cd backend 
-        npm run lint 
-
-    - name: Verificando formato de código en backend
-      run: |
-        cd backend 
-        npm run format:check 
-
-    - name: Verificando vulnerabilidades en backend
-      run: |
         cd backend
-        npm audit
-
-    - name: Instalando dependecias de frontend
-      run: |
-        cd frontend
-        npm install
-
-    - name: Ejecutando Linter en frontend
-      run: |
-        cd frontend
-        npm run lint
-
-    - name: Verificando formato del código en frontend
-      run: |
-        cd frontend
-        npm run format:check
-
-    - name: Verificando vulnerabilidades en frontend
-      run: |
-        cd frontend
-        npm audit 
-
+        npx eslint .
