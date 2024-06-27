@@ -99,12 +99,76 @@ jobs:
         npm run dev &
         sleep 10
     
-    #- name: Realizando Pruebas E2E
-    #  run: |
-    #    cd frontend
-    #    npm run cypress:run:login_incorrecto
-    #    npm run cypress:run:programar_horario_doctor
-    #    npm run cypress:run:registro
-    #    npm run cypress:run:login_paciente
-    #    npm run cypress:run:programar_cita_paciente
-    #    npm run cypress:run:login_doctor
+    - name: Realizando Pruebas E2E
+      run: |
+        cd frontend
+        npm run cypress:run:login_incorrecto
+        npm run cypress:run:programar_horario_doctor
+        npm run cypress:run:registro
+        npm run cypress:run:login_paciente
+        npm run cypress:run:programar_cita_paciente
+        npm run cypress:run:login_doctor
+
+
+
+  verificacion:
+    runs-on: ubuntu-latest
+    needs: test
+    env:
+      MYSQL_HOST: g1ayd.cpk0mwsic0n1.us-east-2.rds.amazonaws.com
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: AyD1#2qW$dT#asR$DgH
+      MYSQL_DATABASE: AYD_G1
+      MYSQL_PORT: 3306
+      SECRET_KEY: SecretCare
+      PORT: 5000
+      VITE_API_URL: http://localhost:5000
+
+    steps:
+    - name: Clonando el repositorio
+      uses: actions/checkout@v4
+
+    - name: Intalar nodejs (Setup Node.js)
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    - name: Instalando dependecias de backend
+      run: |
+        cd backend
+        npm install
+
+    - name: Ejecutando Linter en backend
+      run: |
+        cd backend 
+        npm run lint 
+
+    - name: Verificando formato de código en backend
+      run: |
+        cd backend 
+        npm run format:check 
+
+    - name: Verificando vulnerabilidades en backend
+      run: |
+        cd backend
+        npm audit
+
+    - name: Instalando dependecias de frontend
+      run: |
+        cd frontend
+        npm install
+
+    - name: Ejecutando Linter en frontend
+      run: |
+        cd frontend
+        npm run lint
+
+    - name: Verificando formato del código en frontend
+      run: |
+        cd frontend
+        npm run format:check
+
+    - name: Verificando vulnerabilidades en frontend
+      run: |
+        cd frontend
+        npm audit 
