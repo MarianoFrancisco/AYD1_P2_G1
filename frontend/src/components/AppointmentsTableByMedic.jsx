@@ -1,5 +1,54 @@
 import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
+import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
+const sesClient = new SESClient({
+    region: 'us-east-1',
+    credentials: {
+      accessKeyId: import.meta.env.VITE_ACCESS_KEY,
+      secretAccessKey: import.meta.env.VITE_SECRET_KEY,
+    },
+  });
 
+const sendCancellationEmail = async(patientEmail, doctorName, appointmentDate) => {
+    const params = {
+        Destination: {
+          ToAddresses: [patientEmail],
+        },
+        Message: {
+          Body: {
+            Text: {
+              Charset: 'UTF-8',
+              Data: `Estimado paciente,\n\nLamentamos informarle que su cita con el Dr./Dra. ${doctorName} programada para el ${appointmentDate} ha sido cancelada.\n\nDisculpe las molestias.\n\nSaludos,\nMedicare.`,
+            },
+          },
+          Subject: {
+            Charset: 'UTF-8',
+            Data: 'Cancelación de Cita Médica',
+          },
+        },
+        Source: 'joshfranx13@gmail.com', 
+      };
+    
+      try {
+        const command = new SendEmailCommand(params);
+        await sesClient.send(command);
+        Swal.fire({
+          icon: 'success',
+          title: 'Cita cancelada',
+          text: 'Se ha enviado un correo al paciente sobre la cancelación.',
+          confirmButtonText: 'OK',
+        });
+      } catch (error) {
+        console.error('Failed to send email:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: `Hubo un error al enviar el correo de cancelación. ${error.message}`,
+          confirmButtonText: 'OK',
+        });
+      }
+    };
+  
 const AppointmentsTable = ({userId}) => {
     const [appointments, setAppointments] = useState([]);
     
@@ -12,13 +61,15 @@ const AppointmentsTable = ({userId}) => {
         window.location.reload();
     };
     
-    const onCancel = async (id) => {
+    const onCancel = async (id, patientEmail, doctorName, appointmentDate) => {
         console.log(`Cancelado ${id}`);
         await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic/cancelled/${id}`, {
             method: 'PATCH',
         });
-        window.location.reload();
+        sendCancellationEmail(patientEmail, doctorName, appointmentDate);
+        // window.location.reload();
     };
+
 
     useEffect(() => {
         const fetchAppointments = async () => {
@@ -78,7 +129,7 @@ const AppointmentsTable = ({userId}) => {
                             <td className="py-2 text-center">{appointment.available_time_slot.start_time} - {appointment.available_time_slot.end_time}</td>
                             <td className="py-2 text-center">{appointment.appointment_status.name}</td>
                             <td className="py-2 text-center"><button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => onAtend(appointment.id)}>Atendido</button></td>
-                            <td className="py-2 text-center"><button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => onCancel(appointment.id)}>Cancelado</button></td>
+                            <td className="py-2 text-center"><button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => onCancel(appointment.id, appointment.patient.email, appointment.medic.first_name, appointment.available_time_slot.start_time)}>Cancelado</button></td>
                         </tr>
                     ))}
                 </tbody>
