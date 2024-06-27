@@ -1,0 +1,15 @@
+name: continues integration
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  compilacion:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Mensaje de prueba
+      run: |
+        echo "Hola prueba"
