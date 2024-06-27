@@ -18,7 +18,7 @@ jobs:
       PORT: 5000
 
     steps:
-    - name: Mensaje de prueba
+    - name: Iniciando Integración
       run: |
         echo "Iniciando integración"
 
@@ -29,3 +29,13 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 18
+
+    - name: Instalar dependecias del backend
+      run: |
+        cd backend
+        npm install
+
+    - name: Levantar el backend
+      run: |
+        npm run dev &
+        sleep 10
