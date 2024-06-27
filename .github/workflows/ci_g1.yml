@@ -37,5 +37,5 @@ jobs:
 
     - name: Levantar el backend
       run: |
-        npm run dev &
+        node index.js &
         sleep 10
