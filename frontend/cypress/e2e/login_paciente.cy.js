@@ -3,9 +3,9 @@ describe('Login-Paciente Test', () => {
       cy.visit('http://localhost:5173/login')
   
       cy.wait(1000);
-      cy.get('#email').type("esau@gmail.com");
+      cy.get('#email').type("marisa@gmail.com");
       cy.wait(1000);
-      cy.get('#password').type("123456789V");
+      cy.get('#password').type("123456789Z");
       cy.wait(1000);
       cy.contains('MediCare').should('be.visible');
       cy.wait(1000);
@@ -19,26 +19,26 @@ describe('Login-Paciente Test', () => {
       cy.wait(1500);
       cy.get('.absolute > :nth-child(1)').click(); //Boton editar Perfil
       cy.wait(1000);
-      cy.get('#first_name').clear().type("Angel Esau");
+      cy.get('#first_name').clear().type("Marissa Isabel");
       cy.wait(1000);
       cy.get('#last_name').clear().type("Cardenas");
       cy.wait(1000);
-      cy.get('#birth_date').invoke('val', '1994-03-10').trigger('change');
+      cy.get('#birth_date').invoke('val', '2003-03-10').trigger('change');
       cy.wait(1500);
       cy.get('.bg-gray-800').click(); //Boton Guardar cambios
-      cy.wait(3000);
+      cy.wait(5000);
       cy.get('.swal2-confirm').click();
       cy.wait(1500);
       //Regresa a página principal
       cy.get('.bg-gray-900 > .flex > :nth-child(2)').click();
       cy.wait(3000);
-      cy.contains('Angel Esau').should('be.visible');;
+      cy.contains('Marissa Isabel').should('be.visible');;
       cy.wait(1000);
       // Cierra sesión y regresa a Login
       cy.get('.relative > :nth-child(1) > .text-gray-400').click();
       cy.wait(1500);
       cy.contains('Cerrar sesión').click();
-      cy.wait(1000);
+      cy.wait(2000);
       cy.contains('MediCare').should('be.visible');
     })
   })
