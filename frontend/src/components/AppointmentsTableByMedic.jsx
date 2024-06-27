@@ -4,54 +4,57 @@ import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 const sesClient = new SESClient({
     region: 'us-east-1',
     credentials: {
-      accessKeyId: import.meta.env.VITE_ACCESS_KEY,
-      secretAccessKey: import.meta.env.VITE_SECRET_KEY,
+        accessKeyId: import.meta.env.VITE_ACCESS_KEY,
+        secretAccessKey: import.meta.env.VITE_SECRET_KEY,
     },
-  });
+});
 
-const sendCancellationEmail = async(patientEmail, doctorName, appointmentDate) => {
+const sendCancellationEmail = async (patientEmail, doctorName, appointmentDate, customMessage, id) => {
     const params = {
         Destination: {
-          ToAddresses: [patientEmail],
+            ToAddresses: [patientEmail],
         },
         Message: {
-          Body: {
-            Text: {
-              Charset: 'UTF-8',
-              Data: `Estimado paciente,\n\nLamentamos informarle que su cita con el Dr./Dra. ${doctorName} programada para el ${appointmentDate} ha sido cancelada.\n\nDisculpe las molestias.\n\nSaludos,\nMedicare.`,
+            Body: {
+                Text: {
+                    Charset: 'UTF-8',
+                    Data: `Estimado paciente,\n\nLamentamos informarle que su cita con el Dr./Dra. ${doctorName} programada para el ${appointmentDate} ha sido cancelada.\n\nMotivo de la cancelación: ${customMessage}\n\nDisculpe las molestias.\n\nSaludos,\nMedicare.`,
+                },
             },
-          },
-          Subject: {
-            Charset: 'UTF-8',
-            Data: 'Cancelación de Cita Médica',
-          },
+            Subject: {
+                Charset: 'UTF-8',
+                Data: 'Cancelación de Cita Médica',
+            },
         },
-        Source: 'joshfranx13@gmail.com', 
-      };
-    
-      try {
+        Source: 'joshfranx13@gmail.com',
+    };
+
+    try {
         const command = new SendEmailCommand(params);
         await sesClient.send(command);
         Swal.fire({
-          icon: 'success',
-          title: 'Cita cancelada',
-          text: 'Se ha enviado un correo al paciente sobre la cancelación.',
-          confirmButtonText: 'OK',
+            icon: 'success',
+            title: 'Cita cancelada',
+            text: 'Se ha enviado un correo al paciente sobre la cancelación.',
+            confirmButtonText: 'OK',
         });
-      } catch (error) {
+    } catch (error) {
         console.error('Failed to send email:', error);
         Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: `Hubo un error al enviar el correo de cancelación. ${error.message}`,
-          confirmButtonText: 'OK',
+            icon: 'error',
+            title: 'Error',
+            text: `Hubo un error al enviar el correo de cancelación. ${error.message}`,
+            confirmButtonText: 'OK',
         });
-      }
-    };
-  
-const AppointmentsTable = ({userId}) => {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/pending/${id}`, {
+            method: 'PATCH',
+        });
+    }
+};
+
+const AppointmentsTable = ({ userId }) => {
     const [appointments, setAppointments] = useState([]);
-    
+
     const onAtend = async (id) => {
         console.log(`Atendido ${id}`);
         await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic/attended/${id}`, {
@@ -60,14 +63,34 @@ const AppointmentsTable = ({userId}) => {
         //reload page http://localhost:5000/api/appointment/medic/pending?user_id=3
         window.location.reload();
     };
-    
+
     const onCancel = async (id, patientEmail, doctorName, appointmentDate) => {
-        console.log(`Cancelado ${id}`);
-        await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic/cancelled/${id}`, {
-            method: 'PATCH',
+        const result = await Swal.fire({
+            title: '¿Está seguro de que quiere cancelar la cita?',
+            input: 'textarea',
+            inputLabel: 'Motivo de la cancelación',
+            inputPlaceholder: 'Escriba el motivo de la cancelación aquí...',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No'
         });
-        sendCancellationEmail(patientEmail, doctorName, appointmentDate);
-        // window.location.reload();
+
+        if (result.isConfirmed && result.value !== undefined) {
+            const customMessage = result.value;
+            console.log(`Cancelado ${id}`);
+            await fetch(`${import.meta.env.VITE_API_URL}/api/appointment/medic/cancelled/${id}`, {
+                method: 'PATCH',
+            });
+            sendCancellationEmail(patientEmail, doctorName, appointmentDate, customMessage, id);
+        } else if (result.isDismissed) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Cita no cancelada',
+                text: 'La cita no ha sido cancelada.',
+                confirmButtonText: 'OK'
+            });
+        }
     };
 
 
