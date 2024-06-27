@@ -16,38 +16,90 @@ jobs:
       MYSQL_PORT: 3306
       SECRET_KEY: SecretCare
       PORT: 5000
+      VITE_API_URL: http://localhost:5000
 
     steps:
-    - name: Iniciando Integración Continua...
+    - name: Iniciando Integración Continua
       run: |
         echo "Iniciando integración"
 
-    - name: Clonando repositorio...
+    - name: Clonando repositorio
       uses: actions/checkout@v4
 
-    - name: Intalar nodejs (Setup Node.js)..
+    - name: Intalar nodejs (Setup Node.js)
       uses: actions/setup-node@v4
       with:
         node-version: 18
 
-    - name: Instalando dependecias de backend...
+    - name: Instalando dependecias de backend
       run: |
         cd backend
         npm install
 
-    - name: Iniciando servidor backend...
+    - name: Iniciando servidor backend
       run: |
         cd backend
         npm run dev &
         sleep 10
 
-    - name: Instalando dependecias de frontend...
+    - name: Instalando dependecias de frontend
       run: |
         cd frontend
         npm install
 
-    - name: Iniciando servidor frontend...
+    - name: Iniciando servidor frontend
       run: |
         cd frontend
         npm run dev &
         sleep 10
+
+
+
+  test:
+    runs-on: ubuntu-latest
+    needs: compilacion
+    env:
+      MYSQL_HOST: g1ayd.cpk0mwsic0n1.us-east-2.rds.amazonaws.com
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: AyD1#2qW$dT#asR$DgH
+      MYSQL_DATABASE: AYD_G1
+      MYSQL_PORT: 3306
+      SECRET_KEY: SecretCare
+      PORT: 5000
+      VITE_API_URL: http://localhost:5000
+
+    steps:
+    - name: Clonando el repositorio
+      uses: actions/checkout@v4
+
+    - name: Intalar nodejs (Setup Node.js)
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    - name: Instalando dependecias de backend
+      run: |
+        cd backend
+        npm install
+
+    - name: Iniciando servidor backend
+      run: |
+        cd backend
+        npm run dev &
+        sleep 10
+
+    - name: Instalando dependecias de frontend
+      run: |
+        cd frontend
+        npm install
+
+    - name: Iniciando servidor frontend
+      run: |
+        cd frontend
+        npm run dev &
+        sleep 10
+    
+    #- name: Realizando Pruebas E2E
+    #  run: |
+    #    cd frontend
+    #    npx cypress run
