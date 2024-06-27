@@ -8,8 +8,16 @@ on:
 jobs:
   compilacion:
     runs-on: ubuntu-latest
-    
+    env:
+      MYSQL_HOST: 127.0.0.1
+      MYSQL_USER: test_user
+      MYSQL_PASSWORD: test_password
+      MYSQL_DATABASE: test_db
+      MYSQL_PORT: 3306
+      SECRET_KEY: SecretCare
+      PORT: 5000
+
     steps:
     - name: Mensaje de prueba
       run: |
-        echo "Hola prueba"
+        echo "Iniciando integración"
