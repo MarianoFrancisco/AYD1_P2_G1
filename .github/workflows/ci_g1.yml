@@ -11,7 +11,7 @@ jobs:
     env:
       MYSQL_HOST: g1ayd.cpk0mwsic0n1.us-east-2.rds.amazonaws.com
       MYSQL_USER: admin
-      MYSQL_PASSWORD: test_password
+      MYSQL_PASSWORD: AyD1#2qW$dT#asR$DgH
       MYSQL_DATABASE: AYD_G1
       MYSQL_PORT: 3306
       SECRET_KEY: SecretCare
