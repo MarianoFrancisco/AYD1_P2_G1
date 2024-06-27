@@ -100,6 +100,10 @@ const changeAppointmentStatus = async (req, res, statusId) => {
     }
 };
 
+const pendingAppointment = async (req, res) => {
+    return changeAppointmentStatus(req, res, 1); // 1 "pending"
+};
+
 const attendAppointment = async (req, res) => {
     return changeAppointmentStatus(req, res, 2); // 2 "attended"
 };
@@ -121,4 +125,5 @@ module.exports = {
     attendAppointment,
     cancelAppointmentByPatient,
     cancelAppointmentByMedic,
+    pendingAppointment
 };
