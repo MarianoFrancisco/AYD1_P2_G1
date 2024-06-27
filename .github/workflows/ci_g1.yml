@@ -18,25 +18,36 @@ jobs:
       PORT: 5000
 
     steps:
-    - name: Iniciando Integración
+    - name: Iniciando Integración Continua...
       run: |
         echo "Iniciando integración"
 
-    - name: Clonando repositorio
+    - name: Clonando repositorio...
       uses: actions/checkout@v4
 
-    - name: Intalar nodejs (Setup Node.js)
+    - name: Intalar nodejs (Setup Node.js)..
       uses: actions/setup-node@v4
       with:
         node-version: 18
 
-    - name: Instalar dependecias del backend
+    - name: Instalando dependecias de backend...
       run: |
         cd backend
         npm install
 
-    - name: Levantar el backend
+    - name: Iniciando servidor backend...
       run: |
         cd backend
-        node index.js &
+        npm run dev &
+        sleep 10
+
+    - name: Instalando dependecias de frontend...
+      run: |
+        cd frontend
+        npm install
+
+    - name: Iniciando servidor frontend...
+      run: |
+        cd frontend
+        npm run dev &
         sleep 10
