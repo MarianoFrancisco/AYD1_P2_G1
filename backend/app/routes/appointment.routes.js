@@ -12,7 +12,8 @@ const {
     registerAppointment,
     attendAppointment,
     cancelAppointmentByPatient,
-    cancelAppointmentByMedic
+    cancelAppointmentByMedic,
+    pendingAppointment
 } = require('../controllers/appointmentController');
 const patient = '/patient';
 const medic = '/medic';
@@ -36,13 +37,16 @@ router.get(medic, getAppointmentsAttendAndCancelledByMedic);
 
 router.post('', registerAppointment);
 
-// PUT /patient/cancelled/value
+// PATCH /patient/cancelled/value
 router.patch(patient + cancelled + pathId, cancelAppointmentByPatient);
 
-// PUT /medic/attended/value
+// PATCH /medic/attended/value
 router.patch(medic + attended + pathId, attendAppointment);
 
-// PUT /medic/cancelled/value
+// PATCH /medic/cancelled/value
 router.patch(medic + cancelled + pathId, cancelAppointmentByMedic);
+
+// PATCH /medic/cancelled/value
+router.patch(pending + pathId, pendingAppointment);
 
 module.exports = router;
